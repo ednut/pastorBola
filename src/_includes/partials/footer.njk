@@ -1,0 +1,30 @@
+{#- → WordPress: template-parts/site-footer.php. Link lists become wp_nav_menu( 'footer-*' ). -#}
+<footer class="site-footer on-dark">
+  <div class="wrap site-footer__top">
+    <div class="site-footer__brand">
+      <a class="wordmark" href="/"><small>Pastor</small>Bola Akinlabi</a>
+      <p class="site-footer__tagline">A life rooted in Christ. A heart for people. A calling to build.</p>
+    </div>
+    <div>
+      <h2>Explore</h2>
+      <ul>{% for item in nav.footer.explore %}<li><a href="{{ item.url }}">{{ item.label }}</a></li>{% endfor %}</ul>
+    </div>
+    <div>
+      <h2>Connect</h2>
+      <ul>{% for item in nav.footer.connect %}<li><a href="{{ item.url }}">{{ item.label }}</a></li>{% endfor %}</ul>
+    </div>
+    <div>
+      <h2>Follow</h2>
+      <ul>
+        <li><a href="{{ site.social.instagram }}" target="_blank" rel="noopener">Instagram {{ site.social.instagramHandle }}</a></li>
+        <li><a href="{{ site.social.madeForMore }}" target="_blank" rel="noopener">Made for More</a></li>
+        <li><a href="{{ site.social.jewels }}" target="_blank" rel="noopener">Jewels</a></li>
+        <li><a href="{{ site.social.church }}" target="_blank" rel="noopener">The Elevation Church</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap site-footer__bottom">
+    <span>© {{ "" | year }} Pastor Bola Akinlabi. All rights reserved.</span>
+    <span><a href="/privacy/">Privacy</a></span>
+  </div>
+</footer>

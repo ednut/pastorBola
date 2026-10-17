@@ -1,0 +1,59 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "color": {
+      "custom": false,
+      "defaultPalette": false,
+      "palette": [
+        { "slug": "plum-900", "name": "Deep plum", "color": "#2a1b25" },
+        { "slug": "plum", "name": "Plum", "color": "#432d3b" },
+        { "slug": "berry", "name": "Oxblood", "color": "#754657" },
+        { "slug": "gold", "name": "Muted gold", "color": "#ad9063" },
+        { "slug": "gold-soft", "name": "Soft gold", "color": "#d6c19c" },
+        { "slug": "ivory", "name": "Warm ivory", "color": "#f7f3ed" },
+        { "slug": "parchment", "name": "Parchment", "color": "#ede5d9" },
+        { "slug": "ink", "name": "Ink", "color": "#2e262b" },
+        { "slug": "muted", "name": "Muted text", "color": "#6a5c64" }
+      ]
+    },
+    "typography": {
+      "customFontSize": false,
+      "fontFamilies": [
+        {
+          "slug": "serif", "name": "Bodoni Moda", "fontFamily": "\"Bodoni Moda\", Georgia, serif",
+          "fontFace": [
+            { "fontFamily": "Bodoni Moda", "fontWeight": "400", "fontStyle": "normal", "src": ["file:./assets/fonts/bodoni-moda-400.woff2"] },
+            { "fontFamily": "Bodoni Moda", "fontWeight": "500", "fontStyle": "normal", "src": ["file:./assets/fonts/bodoni-moda-500.woff2"] },
+            { "fontFamily": "Bodoni Moda", "fontWeight": "400", "fontStyle": "italic", "src": ["file:./assets/fonts/bodoni-moda-italic-400.woff2"] }
+          ]
+        },
+        {
+          "slug": "sans", "name": "DM Sans", "fontFamily": "\"DM Sans\", system-ui, sans-serif",
+          "fontFace": [
+            { "fontFamily": "DM Sans", "fontWeight": "400", "fontStyle": "normal", "src": ["file:./assets/fonts/dm-sans-400.woff2"] },
+            { "fontFamily": "DM Sans", "fontWeight": "500", "fontStyle": "normal", "src": ["file:./assets/fonts/dm-sans-500.woff2"] },
+            { "fontFamily": "DM Sans", "fontWeight": "600", "fontStyle": "normal", "src": ["file:./assets/fonts/dm-sans-600.woff2"] }
+          ]
+        }
+      ],
+      "fontSizes": [
+        { "slug": "small", "name": "Small", "size": "0.875rem" },
+        { "slug": "base", "name": "Body", "size": "1.0625rem" },
+        { "slug": "lead", "name": "Lead", "size": "1.1875rem" },
+        { "slug": "large", "name": "Large", "size": "clamp(1.5rem, 1.2rem + 1vw, 2rem)" },
+        { "slug": "x-large", "name": "Section heading", "size": "clamp(2.6rem, 1.8rem + 3.4vw, 4.25rem)" },
+        { "slug": "display", "name": "Display", "size": "clamp(3.2rem, 2rem + 5.4vw, 6.5rem)" }
+      ]
+    },
+    "layout": { "contentSize": "820px", "wideSize": "1280px" }
+  },
+  "styles": {
+    "color": { "background": "var(--wp--preset--color--ivory)", "text": "var(--wp--preset--color--ink)" },
+    "typography": { "fontFamily": "var(--wp--preset--font-family--sans)", "fontSize": "var(--wp--preset--font-size--base)", "lineHeight": "1.7" },
+    "elements": {
+      "heading": { "typography": { "fontFamily": "var(--wp--preset--font-family--serif)", "fontWeight": "400", "lineHeight": "1.06", "letterSpacing": "-0.035em" } }
+    }
+  }
+}

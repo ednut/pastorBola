@@ -1,0 +1,21 @@
+{#- → WordPress: template-parts/newsletter.php (swap the form for the chosen mailing-list plugin's shortcode). -#}
+{%- from "partials/macros.njk" import arrow -%}
+<section class="section section--tight {{ newsletterTheme or 'section--parchment' }}" aria-labelledby="newsletter-title">
+  <div class="wrap newsletter reveal">
+    <div>
+      <h2 id="newsletter-title">More for your <em>journey.</em></h2>
+      <p class="muted mt-2">Encouragement from Pastor Bola, news from Made for More, and first word on her forthcoming books.</p>
+    </div>
+    <form class="newsletter__form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="company" data-success="Thank you — you’re on the list. Look out for a word of encouragement soon.">
+      <input type="hidden" name="form-name" value="newsletter">
+      <p class="hp"><label>Company <input name="company" tabindex="-1" autocomplete="off"></label></p>
+      <label class="visually-hidden" for="nl-email-{{ page.fileSlug or 'home' }}">Email address</label>
+      <div class="newsletter__row">
+        <input class="input" id="nl-email-{{ page.fileSlug or 'home' }}" type="email" name="email" placeholder="Your email address" autocomplete="email" required>
+        <button class="btn" type="submit">Join the list {{ arrow() }}</button>
+      </div>
+      <p class="form-note">We’ll only email about Pastor Bola’s ministry. Unsubscribe any time.</p>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>

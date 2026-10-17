@@ -1,0 +1,72 @@
+{#- Shared snippets → WordPress: small PHP helper functions in inc/template-tags.php -#}
+
+{% macro arrow() %}<span class="arrow" aria-hidden="true">↗</span>{% endmacro %}
+
+{#- Responsive image with WebP + JPG fallback. In WordPress this becomes wp_get_attachment_image(). -#}
+{% macro picture(name, alt, class="", loading="lazy", width="", height="") %}
+<picture>
+  <source type="image/webp" srcset="/assets/images/{{ name }}.webp">
+  <img src="/assets/images/{{ name }}.jpg" alt="{{ alt }}"{% if class %} class="{{ class }}"{% endif %} loading="{{ loading }}" decoding="async"{% if width %} width="{{ width }}"{% endif %}{% if height %} height="{{ height }}"{% endif %}>
+</picture>
+{% endmacro %}
+
+{#- Message card → WordPress: template-parts/content-message.php (CPT "message") -#}
+{% macro mediaCard(m, loading="lazy") %}
+<article class="media-card reveal" data-category="{{ m.category }}">
+  {%- if m.youtube %}
+  <a class="media-card__picture" href="{{ m.url }}" data-youtube="{{ m.youtube }}" data-title="{{ m.title }}" aria-label="Play video: {{ m.title }}">
+  {%- else %}
+  <a class="media-card__picture" href="{{ m.url }}" target="_blank" rel="noopener" aria-label="Listen: {{ m.title }} (opens in a new tab)">
+  {%- endif %}
+    {%- if m.image %}
+    {{ picture(m.image, "", "", loading) }}
+    {%- else %}
+    <span class="media-card__placeholder" aria-hidden="true"><small>{{ m.kind }}</small><span>{{ m.title }}</span></span>
+    {%- endif %}
+    {%- if m.image %}<span class="media-card__badge">{{ m.kind }}</span>{% endif %}
+    <span class="media-card__play" aria-hidden="true">
+      {%- if m.youtube -%}
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      {%- else -%}
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg>
+      {%- endif -%}
+    </span>
+  </a>
+  <div class="media-card__body">
+    <p class="media-card__meta">{{ m.context }}</p>
+    <h3 class="media-card__title">
+      {%- if m.youtube %}<a href="{{ m.url }}" data-youtube="{{ m.youtube }}" data-title="{{ m.title }}">{{ m.title }}</a>
+      {%- else %}<a href="{{ m.url }}" target="_blank" rel="noopener">{{ m.title }}</a>{% endif -%}
+    </h3>
+    <p class="media-card__text">{{ m.description }}</p>
+    {%- if m.youtube %}
+    <a class="link" href="{{ m.url }}" data-youtube="{{ m.youtube }}" data-title="{{ m.title }}">Watch the message {{ arrow() }}</a>
+    {%- else %}
+    <a class="link" href="{{ m.url }}" target="_blank" rel="noopener">Listen now {{ arrow() }}</a>
+    {%- endif %}
+  </div>
+</article>
+{% endmacro %}
+
+{#- Book cover object (CSS-drawn until real covers exist) -#}
+{% macro bookCover(b) %}
+<div class="book" aria-hidden="true">
+  <div class="book__cover">
+    <span class="book__spine"></span>
+    <span class="book__kicker">{{ b.kicker }}</span>
+    <span>
+      <span class="book__star">✳</span>
+      <span class="book__title" style="display:block;margin-top:1rem">{{ b.coverTitle | safe }}</span>
+    </span>
+    <span class="book__author">Bola Akinlabi</span>
+  </div>
+  <span class="book-shadow"></span>
+</div>
+{% endmacro %}
+
+{% macro pageHero(eyebrow, heading, lead) %}
+<header class="page-hero wrap">
+  <h1 class="reveal" data-delay="1">{{ heading | safe }}</h1>
+  {% if lead %}<p class="lead reveal" data-delay="2">{{ lead | safe }}</p>{% endif %}
+</header>
+{% endmacro %}

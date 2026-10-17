@@ -1,0 +1,44 @@
+{#- Base layout → WordPress: header.php (everything above <main>) + footer.php (everything below). -#}
+{%- from "partials/macros.njk" import arrow -%}
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} | {% endif %}{{ site.name }}</title>
+  <meta name="description" content="{{ description or site.description }}">
+  {%- if site.isPreview %}
+  <meta name="robots" content="noindex, nofollow">
+  {%- endif %}
+  <meta name="theme-color" content="#432d3b">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="{{ site.locale }}">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:title" content="{{ title or site.name }} — {{ site.tagline }}">
+  <meta property="og:description" content="{{ description or site.description }}">
+  <meta property="og:image" content="{{ site.url }}/assets/images/{{ ogImage or 'bola-portrait-red' }}.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/bodoni-moda-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/dm-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script src="/assets/js/main.js" defer></script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Person","name":"Bola Akinlabi","alternateName":"Bolarinwa Akinlabi","honorificPrefix":"Pastor","jobTitle":"Global Co-Lead Pastor","worksFor":{"@type":"Organization","name":"The Elevation Church","url":"https://elevationng.org/"},"spouse":{"@type":"Person","name":"Godman Akinlabi"},"alumniOf":[{"@type":"CollegeOrUniversity","name":"Ahmadu Bello University, Zaria"},{"@type":"CollegeOrUniversity","name":"University of Oxford"}],"sameAs":["{{ site.social.instagram }}"]}
+  </script>
+</head>
+<body class="page-{{ pageClass or 'default' }}">
+  <a class="skip" href="#main">Skip to content</a>
+  {% include "partials/header.njk" %}
+  <main id="main">
+    {{ content | safe }}
+  </main>
+  {% include "partials/footer.njk" %}
+
+  <dialog class="video-dialog" id="video-dialog" aria-label="Video player">
+    <button class="video-dialog__close" type="button">Close <span aria-hidden="true">✕</span></button>
+    <div class="video-dialog__inner"></div>
+  </dialog>
+</body>
+</html>

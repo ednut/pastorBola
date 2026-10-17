@@ -1,0 +1,41 @@
+---
+layout: layouts/base.njk
+title: Contact
+pageClass: contact
+permalink: /contact/
+description: Get in touch with Pastor Bola Akinlabi's office for speaking invitations, book enquiries and general messages.
+---
+{%- from "partials/macros.njk" import arrow, pageHero -%}
+
+{{ pageHero("Let’s connect", "Every connection begins <em>with hello.</em>", "Find the right place to continue the conversation.") }}
+
+<section class="section" style="padding-top:0">
+  <div class="wrap contact-options">
+    <a class="card reveal" href="/speaking/#invite"><h3>Speaking <em>invitations.</em></h3><p>Tell us about your event, community and the conversation you’d like to bring to life.</p><span class="link">Send an invitation {{ arrow() }}</span></a>
+    <a class="card card--plum reveal" data-delay="1" href="{{ site.social.instagram }}" target="_blank" rel="noopener"><h3>Stay <em>connected.</em></h3><p>Ministry moments, encouragement and announcements on Pastor Bola’s official Instagram.</p><span class="link">{{ site.social.instagramHandle }} {{ arrow() }}</span></a>
+    <a class="card reveal" data-delay="2" href="{{ site.social.church }}" target="_blank" rel="noopener"><h3>Our church <em>family.</em></h3><p>For service times, locations, prayer and community, visit The Elevation Church.</p><span class="link">elevationng.org {{ arrow() }}</span></a>
+  </div>
+</section>
+
+<section class="section section--parchment" aria-labelledby="msg-title">
+  <div class="wrap split split--wide-right" style="align-items:start">
+    <div>
+      <h2 id="msg-title" class="mt-2 reveal" data-delay="1" style="font-size:var(--fs-xl)">Write to <em>her office.</em></h2>
+      <p class="muted mt-3 reveal" data-delay="2">For book and bulk-order enquiries, media requests and general messages. Her team reads every message and will reply where they can.</p>
+    </div>
+    <form class="panel reveal" data-delay="1" name="contact" method="POST" data-netlify="true" netlify-honeypot="company" data-success="Thank you — your message has been received.">
+      <input type="hidden" name="form-name" value="contact">
+      <p class="hp"><label>Company <input name="company" tabindex="-1" autocomplete="off"></label></p>
+      <div class="form">
+        <div class="field"><label for="ct-name">Your name</label><input class="input" id="ct-name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="ct-email">Email address</label><input class="input" id="ct-email" type="email" name="email" autocomplete="email" required></div>
+        <div class="field full"><label for="ct-topic">What is it about?</label>
+          <select class="select" id="ct-topic" name="topic"><option>General message</option><option>Books &amp; bulk orders</option><option>Media &amp; press</option><option>Made for More</option><option>Something else</option></select>
+        </div>
+        <div class="field full"><label for="ct-message">Message</label><textarea class="textarea" id="ct-message" name="message" required></textarea></div>
+        <div class="full"><button class="btn" type="submit">Send message {{ arrow() }}</button></div>
+      </div>
+      <p class="form-status mt-2" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>

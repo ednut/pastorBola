@@ -1,0 +1,85 @@
+---
+layout: layouts/base.njk
+title: Made for More
+pageClass: m4m
+permalink: /made-for-more/
+ogImage: women-worship-joy
+description: Made for More is the annual women's conference convened by Pastor Bola Akinlabi since 2016, with editions in Lagos, London and Toronto.
+---
+{%- from "partials/macros.njk" import arrow, picture -%}
+
+<header class="page-hero page-hero--image">
+  {{ picture("women-worship-joy", "", "", "eager") }}
+  <div class="wrap">
+    <h1 class="reveal" data-delay="1" style="margin-top:var(--s-3);max-width:12ch">You were made <em>for more.</em></h1>
+    <p class="lead reveal" data-delay="2" style="margin-top:var(--s-4)">Convened by Pastor Bola Akinlabi, Made for More helps women discover purpose, embrace their calling and build the lives they were created to live.</p>
+    <div class="btn-row mt-4 reveal" data-delay="3"><a class="btn btn--light" href="{{ site.social.madeForMore }}" target="_blank" rel="noopener">Follow for the next edition {{ arrow() }}</a></div>
+  </div>
+</header>
+
+<section class="section" aria-labelledby="why-title">
+  <div class="wrap split">
+    <div>
+      <h2 id="why-title" class="mt-2 reveal" data-delay="1">Speaking to a woman’s <em>sense of worth.</em></h2>
+    </div>
+    <div class="reveal" data-delay="2">
+      <p class="muted">Long before she turns twenty, the average young woman has been handed a list of definitions by billboards, magazines and the world around her. Made for More exists to answer them with God’s truth: her worth is so much more than how she looks or what others expect.</p>
+      <p class="muted">Each year women leave with fresh faith, new friendships, and often the courage to start the business, ministry or next step they have been carrying for years.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--parchment" aria-labelledby="expect-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2 id="expect-title" class="reveal" data-delay="1">Faith, worship <em>and real life.</em></h2>
+      </div>
+    </div>
+    <div class="cards-3">
+      <div class="card reveal"><span class="ornament" style="font-size:1.6rem">✳</span><h3>Teaching &amp; worship</h3><p>Biblical teaching from Pastor Bola and guest speakers, with dedicated time to worship and receive.</p></div>
+      <div class="card reveal" data-delay="1"><span class="ornament" style="font-size:1.6rem">✳</span><h3>Real Talk</h3><p>Panels with business owners, specialists and professionals on faith, work, family and having it all.</p></div>
+      <div class="card reveal" data-delay="2"><span class="ornament" style="font-size:1.6rem">✳</span><h3>Women in Business</h3><p>An exhibition where women-led ventures share ideas, meet customers and build relationships.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--deep" aria-labelledby="editions-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2 id="editions-title" class="reveal" data-delay="1">Every year, <em>a new fire.</em></h2>
+      </div>
+      <p class="section-head__aside reveal" data-delay="2">From Lagos to London and Toronto. Scroll to see the themes that have shaped a decade.</p>
+    </div>
+    <div class="timeline reveal" tabindex="0" aria-label="Made for More editions, scrollable">
+      {%- for e in editions %}
+      <div class="timeline__item{% if e.current %} timeline__item--now{% endif %}">
+        <p class="timeline__year">{{ e.year }}</p>
+        <p class="timeline__theme">{{ e.theme }}</p>
+        <p class="timeline__detail">{{ e.detail }}</p>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-label="Gallery">
+  <div class="wrap gallery">
+    <div class="frame frame--zoom reveal">{{ picture("women-worship-praise", "A woman worshipping with both hands raised") }}</div>
+    <div class="frame frame--zoom reveal" data-delay="1">{{ picture("women-worship-joy", "Women celebrating in worship") }}</div>
+    <div class="frame frame--zoom reveal" data-delay="2">{{ picture("bola-portrait-red", "Pastor Bola Akinlabi") }}</div>
+    <div class="frame frame--zoom reveal" data-delay="3">{{ picture("congregation-worship", "A congregation in worship") }}</div>
+  </div>
+  <p class="wrap caption">Photos from The Elevation Church. Event photography from Made for More to be added.</p>
+</section>
+
+<section class="section section--plum" aria-labelledby="mfm-cta">
+  <div class="wrap center">
+    <h2 id="mfm-cta" class="mt-2 reveal" data-delay="1">Women were made <em>to build.</em></h2>
+    <p class="muted mt-3 reveal" data-delay="2" style="max-width:38rem;margin-inline:auto">To shape destinies, nurture generations, create solutions and leave the world better than we found it. Follow Made for More for dates, cities and registration.</p>
+    <div class="btn-row mt-4 reveal" data-delay="3" style="justify-content:center"><a class="btn btn--light" href="{{ site.social.madeForMore }}" target="_blank" rel="noopener">@madeformoreng on Instagram {{ arrow() }}</a></div>
+  </div>
+</section>
+
+{% include "partials/newsletter.njk" %}

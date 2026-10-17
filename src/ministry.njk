@@ -1,0 +1,60 @@
+---
+layout: layouts/base.njk
+title: Ministry
+pageClass: ministry
+permalink: /ministry/
+description: Jewels, The Elevation Church, Better Half and Made for More — the ministries Pastor Bola Akinlabi leads and serves.
+---
+{%- from "partials/macros.njk" import arrow, picture, pageHero -%}
+
+{{ pageHero("One heart. Many expressions.", "A faith that <em>makes room.</em>", "For women, for families, and for the communities we are called to build.") }}
+
+<section class="section" id="jewels" style="padding-top:0" aria-labelledby="jewels-title">
+  <div class="wrap split">
+    <div class="jewels-mark reveal"><span>Women of faith &amp; purpose</span><strong>Jewels</strong><span>A place to grow · A people to belong to</span></div>
+    <div>
+      <h2 id="jewels-title" class="mt-2 reveal" data-delay="1">Precious. Purposeful. <em>Connected.</em></h2>
+      <div class="reveal" data-delay="2" style="margin-top:var(--s-3)">
+        <p class="muted">Jewels is the women’s ministry of The Elevation Church, pioneered by Pastor Bola. It is a thriving community that helps women grow in faith, purpose, leadership and destiny.</p>
+        <p class="muted">A place to build friendships, deepen faith and grow in contribution to family, ministry and the marketplace.</p>
+      </div>
+      <div class="btn-row mt-4 reveal" data-delay="3"><a class="btn" href="{{ site.social.jewels }}" target="_blank" rel="noopener">Connect with Jewels {{ arrow() }}</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--parchment" id="made-for-more" aria-labelledby="mfm-title">
+  <div class="wrap split split--wide-left">
+    <div class="frame frame--zoom reveal" style="aspect-ratio:9/5">{{ picture("women-worship-praise", "A woman in worship with hands raised") }}</div>
+    <div>
+      <h2 id="mfm-title" class="mt-2 reveal" data-delay="1">Made for <em>More.</em></h2>
+      <p class="muted mt-3 reveal" data-delay="2">An annual gathering of worship, biblical teaching and real conversations that speaks to the whole woman: her faith, relationships, family, work and calling.</p>
+      <div class="btn-row mt-4 reveal" data-delay="3"><a class="btn" href="/made-for-more/">Explore Made for More {{ arrow() }}</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--plum" id="elevation" aria-labelledby="tec-title">
+  <div class="wrap split">
+    <div>
+      <h2 id="tec-title" class="mt-2 reveal" data-delay="1">Making greatness <em>common.</em></h2>
+      <p class="muted mt-3 reveal" data-delay="2">The Elevation Church was founded in October 2010 by Pastors Godman and Bola Akinlabi. Together they lead a global church family that develops people as witnesses for Christ and helps them reach the highest levels of distinction in life.</p>
+      <p class="muted mt-2 reveal" data-delay="2">Pastor Bola also co-hosts the church’s leadership gatherings, including the Exponential Conference for church leaders and the Accelerate Conference.</p>
+      <div class="btn-row mt-4 reveal" data-delay="3"><a class="btn btn--light" href="{{ site.social.church }}" target="_blank" rel="noopener">Visit The Elevation Church {{ arrow() }}</a><a class="link" href="{{ site.social.churchUk }}" target="_blank" rel="noopener">TEC in the UK {{ arrow() }}</a></div>
+    </div>
+    <div class="frame reveal" data-delay="1" style="aspect-ratio:4/3">{{ picture("congregation-worship", "A congregation in worship at The Elevation Church") }}</div>
+  </div>
+</section>
+
+<section class="section" id="better-half" aria-labelledby="bh-title">
+  <div class="wrap split split--wide-right">
+    <div class="frame reveal" style="aspect-ratio:3/2">{{ picture("pastors-godman-bola", "Pastors Godman and Bola Akinlabi") }}</div>
+    <div>
+      <h2 id="bh-title" class="mt-2 reveal" data-delay="1">Better <em>Half.</em></h2>
+      <p class="muted mt-3 reveal" data-delay="2">In the Better Half conversations, Pastors Godman and Bola speak honestly about love, communication, criticism and building a home that lasts, for singles and couples alike.</p>
+      <div class="btn-row mt-4 reveal" data-delay="3"><a class="btn" href="/media/?filter=relationships">Listen to Better Half {{ arrow() }}</a></div>
+    </div>
+  </div>
+</section>
+
+{% include "partials/newsletter.njk" %}

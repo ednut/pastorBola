@@ -1,0 +1,24 @@
+{
+  "name": "Pastor Bola Akinlabi",
+  "shortName": "Bola Akinlabi",
+  "tagline": "Faith. Purpose. Impact.",
+  "description": "Pastor Bola Akinlabi is Global Co-Lead Pastor of The Elevation Church, visionary behind Jewels and convener of the Made for More Conference.",
+  "url": "https://pastor-bola-preview.netlify.app",
+  "locale": "en_GB",
+  "isPreview": true,
+  "previewNote": "Website preview for review — not yet the official site.",
+  "office": {
+    "email": "",
+    "note": "Office email to be confirmed by Pastor Bola's team."
+  },
+  "social": {
+    "instagram": "https://www.instagram.com/bollarinwa/",
+    "instagramHandle": "@bollarinwa",
+    "jewels": "https://www.instagram.com/jewelsofelevationng/",
+    "madeForMore": "https://www.instagram.com/madeformoreng/",
+    "church": "https://elevationng.org/",
+    "churchUk": "https://www.instagram.com/elevationldn/",
+    "sermons": "https://sermons.elevationng.org/",
+    "podcast": "https://godmanakinlabi.podbean.com/"
+  }
+}

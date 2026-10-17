@@ -1,0 +1,24 @@
+{
+  "primary": [
+    { "label": "Her story", "url": "/about/" },
+    { "label": "Ministry", "url": "/ministry/" },
+    { "label": "Made for More", "url": "/made-for-more/" },
+    { "label": "Books", "url": "/books/" },
+    { "label": "Watch & listen", "url": "/media/" }
+  ],
+  "cta": { "label": "Invite Pastor Bola", "url": "/speaking/" },
+  "footer": {
+    "explore": [
+      { "label": "Her story", "url": "/about/" },
+      { "label": "Ministry", "url": "/ministry/" },
+      { "label": "Made for More", "url": "/made-for-more/" },
+      { "label": "Books & resources", "url": "/books/" },
+      { "label": "Watch & listen", "url": "/media/" }
+    ],
+    "connect": [
+      { "label": "Speaking invitations", "url": "/speaking/" },
+      { "label": "Press kit", "url": "/press-kit/" },
+      { "label": "Contact", "url": "/contact/" }
+    ]
+  }
+}

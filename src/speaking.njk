@@ -1,0 +1,94 @@
+---
+layout: layouts/base.njk
+title: Speaking & invitations
+pageClass: speaking
+permalink: /speaking/
+description: Invite Pastor Bola Akinlabi to speak at your conference, church, leadership gathering or women's event.
+---
+{%- from "partials/macros.njk" import arrow, picture, pageHero -%}
+
+<header class="page-hero wrap page-hero--split">
+  <div>
+    <h1 class="reveal" data-delay="1" style="margin-top:var(--s-3)">Conversations that <em>build people.</em></h1>
+  </div>
+  <p class="lead reveal" data-delay="2">Invite Pastor Bola to bring biblical wisdom and practical encouragement to your conference, church, leadership team or women’s gathering.</p>
+</header>
+
+<section class="section" style="padding-top:0" aria-labelledby="topics-title">
+  <div class="wrap split split--wide-right" style="align-items:start">
+    <div class="reveal">
+      <div class="frame" style="aspect-ratio:16/10">{{ picture("msg-decisions-determine-destiny", "Pastor Bola Akinlabi teaching at the Accelerate Conference 2026", "", "eager") }}</div>
+      <p class="caption">Teaching at the Accelerate Conference, 2026</p>
+      <h2 class="mt-5" style="font-size:var(--fs-lg)">Where she has ministered</h2>
+      <ul class="platforms platforms--light">
+        <li>Made for More Conference</li>
+        <li>Exponential Conference</li>
+        <li>Accelerate Conference</li>
+        <li>The Hangout</li>
+        <li>Mission to West Africa</li>
+        <li>Better Half podcast</li>
+      </ul>
+    </div>
+    <div>
+      <h2 id="topics-title" class="mt-2 reveal" data-delay="1" style="font-size:var(--fs-xl);margin-bottom:var(--s-4)">What she <em>speaks on.</em></h2>
+      <div class="rows">
+        {%- for t in topics %}
+        <div class="row reveal"><span class="row__num">0{{ loop.index }}</span><div><h3>{{ t.title }}</h3><p>{{ t.summary }}</p></div></div>
+        {%- endfor %}
+      </div>
+      <p class="form-note mt-3">Formats: keynote, sermon, workshop, panel, couples session with Pastor Godman, leadership training, or online event. Topics are agreed with her team for each invitation.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--parchment" id="invite" aria-labelledby="invite-title">
+  <div class="wrap split split--wide-right" style="align-items:start">
+    <div>
+      <h2 id="invite-title" class="mt-2 reveal" data-delay="1" style="font-size:var(--fs-xl)">Tell us about <em>your gathering.</em></h2>
+      <ol class="steps mt-4 reveal" data-delay="2">
+        <li><div><h3>Send your invitation</h3><p>Share the details of your event, audience and what you have in mind.</p></div></li>
+        <li><div><h3>Her team reviews it</h3><p>Pastor Bola’s office considers each request prayerfully alongside her ministry calendar.</p></div></li>
+        <li><div><h3>We confirm the details</h3><p>If she is available, the team will be in touch about topic, format and logistics.</p></div></li>
+      </ol>
+      <p class="form-note mt-4">Please allow at least eight weeks’ notice for in-person events.</p>
+    </div>
+    <form class="panel reveal" data-delay="1" name="speaking-invitation" method="POST" data-netlify="true" netlify-honeypot="company" data-success="Thank you — your invitation has been received. Pastor Bola’s team will be in touch.">
+      <input type="hidden" name="form-name" value="speaking-invitation">
+      <p class="hp"><label>Company <input name="company" tabindex="-1" autocomplete="off"></label></p>
+      <div class="form">
+        <div class="field"><label for="sp-name">Your name</label><input class="input" id="sp-name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="sp-email">Email address</label><input class="input" id="sp-email" type="email" name="email" autocomplete="email" required></div>
+        <div class="field"><label for="sp-org">Organisation or church</label><input class="input" id="sp-org" name="organisation" autocomplete="organization" required></div>
+        <div class="field"><label for="sp-phone">Phone <span class="hint">(optional)</span></label><input class="input" id="sp-phone" type="tel" name="phone" autocomplete="tel"></div>
+        <div class="field"><label for="sp-event">Event name</label><input class="input" id="sp-event" name="event" required></div>
+        <div class="field"><label for="sp-date">Proposed date</label><input class="input" id="sp-date" type="date" name="date" required></div>
+        <div class="field"><label for="sp-location">City &amp; country</label><input class="input" id="sp-location" name="location" required></div>
+        <div class="field"><label for="sp-audience">Expected audience</label><input class="input" id="sp-audience" name="audience" placeholder="e.g. 250 women"></div>
+        <div class="field"><label for="sp-format">Format</label>
+          <select class="select" id="sp-format" name="format"><option>Conference keynote</option><option>Church service</option><option>Workshop or panel</option><option>Couples session (with Pastor Godman)</option><option>Leadership training</option><option>Online event</option></select>
+        </div>
+        <div class="field"><label for="sp-topic">Topic of interest</label>
+          <select class="select" id="sp-topic" name="topic">{% for t in topics %}<option>{{ t.title }}</option>{% endfor %}<option>Something else</option></select>
+        </div>
+        <div class="field full"><label for="sp-message">Tell us a little more</label><textarea class="textarea" id="sp-message" name="message" placeholder="Your theme, audience and what you hope people will leave with…" required></textarea></div>
+        <div class="full"><button class="btn" type="submit">Send invitation {{ arrow() }}</button></div>
+      </div>
+      <p class="form-status mt-2" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="sp-faq">
+  <div class="wrap split" style="align-items:start">
+    <div>
+      <h2 id="sp-faq" class="mt-2 reveal" data-delay="1" style="font-size:var(--fs-xl)">Good to <em>know.</em></h2>
+      <div class="btn-row mt-4 reveal" data-delay="2"><a class="btn btn--ghost" href="/press-kit/">Bios &amp; photos for your programme {{ arrow() }}</a></div>
+    </div>
+    <div class="faq reveal" data-delay="1">
+      <details><summary>Does Pastor Bola travel internationally?</summary><div><p>Yes. She ministers across Nigeria, the United Kingdom and beyond. Travel is arranged with her team once an invitation is confirmed.</p></div></details>
+      <details><summary>Can Pastors Godman and Bola speak together?</summary><div><p>Couples sessions on marriage and family are available for conferences, retreats and church events. Select “Couples session” in the form.</p></div></details>
+      <details><summary>Where can I find an approved bio and photo?</summary><div><p>The press kit has short and full bios you can copy, plus approved portraits for programmes and promotion.</p></div></details>
+      <details><summary>What should we include in the invitation?</summary><div><p>Your event’s purpose, audience size, date, location, format and the topic you have in mind. The more context, the easier it is for the team to respond.</p></div></details>
+    </div>
+  </div>
+</section>
