@@ -58,7 +58,7 @@
 
 /* 3. Base ----------------------------------------------------------------- */
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 24px);-webkit-text-size-adjust:100%}
+html{color-scheme:only light;scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 24px);-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--c-ivory);color:var(--c-ink);font:400 var(--fs-base)/1.7 var(--f-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 img,svg,video{display:block;max-width:100%}
 picture{display:contents}
