@@ -31,21 +31,6 @@ description: Pastor Bola Akinlabi — Global Co-Lead Pastor of The Elevation Chu
 </section>
 
 
-{%- set book = books[0] %}
-<section class="section section--plum" aria-labelledby="books-title">
-  <div class="wrap split">
-    <div class="reveal">{{ bookCover(book) }}</div>
-    <div>
-      <span class="tag reveal">{{ book.statusLabel }}</span>
-      <h2 id="books-title" class="mt-3 reveal" data-delay="1">A new chapter. <em>The same heart.</em></h2>
-      <p class="muted mt-3 reveal" data-delay="2" style="max-width:32rem">Pastor Bola’s first book is ready: words of faith, purpose and practical wisdom for every season. Download your copy today, with no sign-up needed.</p>
-      <div class="btn-row mt-4 reveal" data-delay="3">
-        <a class="btn btn--light" href="/books/">Get the book {{ arrow() }}</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="section" aria-labelledby="intro-title">
   <div class="wrap split split--wide-right">
     <div class="intro__visual reveal">
@@ -153,6 +138,21 @@ description: Pastor Bola Akinlabi — Global Co-Lead Pastor of The Elevation Chu
       {%- for m in messages | where("featured", true) | limit(3) %}
       {{ mediaCard(m) }}
       {%- endfor %}
+    </div>
+  </div>
+</section>
+
+{%- set book = books[0] %}
+<section class="section section--plum" aria-labelledby="books-title">
+  <div class="wrap split">
+    <div class="reveal">{{ bookCover(book) }}</div>
+    <div>
+      <span class="tag reveal">{% if book.downloadUrl %}Available to download{% else %}Coming soon{% endif %}</span>
+      <h2 id="books-title" class="mt-3 reveal" data-delay="1">A new chapter. <em>The same heart.</em></h2>
+      <p class="muted mt-3 reveal" data-delay="2" style="max-width:32rem">{% if book.downloadUrl %}Pastor Bola’s first book is ready: words of faith, purpose and practical wisdom for every season. Download your copy today, with no sign-up needed.{% else %}Pastor Bola’s first book is on its way: words of faith, purpose and practical wisdom for every season. Learn more about the book here.{% endif %}</p>
+      <div class="btn-row mt-4 reveal" data-delay="3">
+        <a class="btn btn--light" href="/books/">{% if book.downloadUrl %}Get the book{% else %}About the book{% endif %} {{ arrow() }}</a>
+      </div>
     </div>
   </div>
 </section>

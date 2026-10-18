@@ -7,16 +7,16 @@ description: Download Pastor Bola Akinlabi's first book, Words to Build On. Word
 ---
 {%- from "partials/macros.njk" import arrow, bookCover, pageHero -%}
 
-{{ pageHero("Books & resources", "Words to <em>build on.</em>", "Pastor Bola’s first book is ready to download. Words of faith, purpose and practical wisdom for every season.") }}
+{{ pageHero("Books & resources", "Words to <em>build on.</em>", "Pastor Bola’s first book: words of faith, purpose and practical wisdom for every season.") }}
 
 {%- for book in books %}
 <section class="section" style="padding-top:0" aria-labelledby="book-{{ book.slug }}">
   <div class="wrap split">
     <div class="reveal" style="padding-block:var(--s-4)">{{ bookCover(book) }}</div>
     <div>
-      <span class="tag reveal">{{ book.statusLabel }}</span>
+      <span class="tag reveal">{% if book.downloadUrl %}Available to download{% else %}Coming soon{% endif %}</span>
       <h2 id="book-{{ book.slug }}" class="mt-3 reveal" data-delay="1">{{ book.coverTitle | safe }}</h2>
-      <p class="muted mt-3 reveal" data-delay="2">{{ book.summary }}</p>
+      <p class="muted mt-3 reveal" data-delay="2">{{ book.summary }}{% if book.downloadUrl %} Download your copy directly, with no sign-up needed.{% endif %}</p>
       <dl class="factsheet mt-4 reveal" data-delay="2">
         <dt>Title</dt><dd>{{ book.title }}</dd>
         <dt>Author</dt><dd>Bola Akinlabi</dd>
@@ -55,7 +55,7 @@ description: Download Pastor Bola Akinlabi's first book, Words to Build On. Word
       <h2 id="faq-title" class="mt-2 reveal" data-delay="1">For readers, churches <em>and groups.</em></h2>
     </div>
     <div class="faq reveal" data-delay="1">
-      <details><summary>How do I get the book?</summary><div><p>Use the download button at the top of this page. There is no sign-up or waiting list.</p></div></details>
+      <details><summary>How do I get the book?</summary><div><p>{% if book.downloadUrl %}Use the download button at the top of this page.{% else %}The download button will appear at the top of this page as soon as the book is available.{% endif %} There is no sign-up or waiting list.</p></div></details>
       <details><summary>Can our church or women’s group share it?</summary><div><p>Yes. Send a note through the contact page and the team will help you share it with your church, small group or conference.</p></div></details>
     </div>
   </div>
