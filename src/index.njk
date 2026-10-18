@@ -31,6 +31,21 @@ description: Pastor Bola Akinlabi — Global Co-Lead Pastor of The Elevation Chu
 </section>
 
 
+{%- set book = books[0] %}
+<section class="section section--plum" aria-labelledby="books-title">
+  <div class="wrap split">
+    <div class="reveal">{{ bookCover(book) }}</div>
+    <div>
+      <span class="tag reveal">{{ book.statusLabel }}</span>
+      <h2 id="books-title" class="mt-3 reveal" data-delay="1">A new chapter. <em>The same heart.</em></h2>
+      <p class="muted mt-3 reveal" data-delay="2" style="max-width:32rem">Pastor Bola’s first book is ready: words of faith, purpose and practical wisdom for every season. Download your copy today, with no sign-up needed.</p>
+      <div class="btn-row mt-4 reveal" data-delay="3">
+        <a class="btn btn--light" href="/books/">Get the book {{ arrow() }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section" aria-labelledby="intro-title">
   <div class="wrap split split--wide-right">
     <div class="intro__visual reveal">
@@ -54,7 +69,7 @@ description: Pastor Bola Akinlabi — Global Co-Lead Pastor of The Elevation Chu
 
   <div class="wrap facts mt-5" style="margin-top:var(--s-6)">
     <div class="fact reveal"><p class="fact__num">2010</p><p class="fact__label">Co-founded The Elevation Church in Lagos</p></div>
-    <div class="fact reveal" data-delay="1"><p class="fact__num">2016</p><p class="fact__label">Convened the first Made for More Conference</p></div>
+    <div class="fact reveal" data-delay="1"><p class="fact__num">2015</p><p class="fact__label">Convened the first Made for More Conference</p></div>
     <div class="fact reveal" data-delay="2"><p class="fact__num">3 cities</p><p class="fact__label">Made for More editions in Lagos, London &amp; Toronto</p></div>
     <div class="fact reveal" data-delay="3"><p class="fact__num">10 years</p><p class="fact__label">Of Made for More, celebrated in 2025</p></div>
   </div>
@@ -82,7 +97,7 @@ description: Pastor Bola Akinlabi — Global Co-Lead Pastor of The Elevation Chu
         <div class="feature-card__top"><span>The women’s conference</span><span aria-hidden="true">↗</span></div>
         <div>
           <h3>Made for <em>More</em></h3>
-          <p>A gathering, a community, and a reminder of all you are called to be. Convened by Pastor Bola since 2016.</p>
+          <p>A gathering, a community, and a reminder of all you are called to be. Convened by Pastor Bola since 2015.</p>
         </div>
       </a>
       <div class="rows">
@@ -138,22 +153,6 @@ description: Pastor Bola Akinlabi — Global Co-Lead Pastor of The Elevation Chu
       {%- for m in messages | where("featured", true) | limit(3) %}
       {{ mediaCard(m) }}
       {%- endfor %}
-    </div>
-  </div>
-</section>
-
-{%- set book = books[0] %}
-<section class="section section--plum" aria-labelledby="books-title">
-  <div class="wrap split">
-    <div class="reveal">{{ bookCover(book) }}</div>
-    <div>
-      <span class="tag reveal">{{ book.statusLabel }}</span>
-      <h2 id="books-title" class="mt-3 reveal" data-delay="1">A new chapter. <em>The same heart.</em></h2>
-      <p class="muted mt-3 reveal" data-delay="2" style="max-width:32rem">Pastor Bola is preparing her first books: words of faith, purpose and practical wisdom for every season. Be the first to hear when they are announced.</p>
-      <div class="btn-row mt-4 reveal" data-delay="3">
-        <a class="btn btn--light" href="/books/">Join the launch list {{ arrow() }}</a>
-        <a class="link" href="/books/">About the books {{ arrow() }}</a>
-      </div>
     </div>
   </div>
 </section>

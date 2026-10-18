@@ -1,14 +1,17 @@
 [
   {
-    "slug": "forthcoming-1",
-    "status": "forthcoming",
-    "statusLabel": "Forthcoming",
+    "slug": "words-to-build-on",
+    "status": "available",
+    "statusLabel": "Available to download",
     "kicker": "Faith · Purpose · Legacy",
-    "title": "Title to be announced",
+    "title": "Words to Build On",
     "coverTitle": "Words to build <em>on.</em>",
     "subtitle": "The first book from Pastor Bola Akinlabi",
-    "release": "Release date to be announced",
-    "summary": "Details of Pastor Bola’s first book will be shared here when they are officially announced. Join the launch list to be the first to hear, and to receive an early chapter.",
-    "buy": []
+    "release": "Available now",
+    "summary": "Words of faith, purpose and practical wisdom for every season, written by Pastor Bola Akinlabi. Download your copy directly, with no sign-up needed.",
+    "buy": [],
+    "format": "Digital download",
+    "downloadUrl": "",
+    "downloadLabel": "Download the book"
   }
 ]

@@ -16,7 +16,7 @@ npm run build    # outputs the finished site to _site/
 
 1. Push this folder to a GitHub repo, then on netlify.com choose **Add new site → Import from Git**. `netlify.toml` already sets the build command and output folder.
 2. Alternatively, run `npm run build` and drag the `_site` folder onto app.netlify.com/drop.
-3. Once the site is on Netlify, the four forms (newsletter, book launch list, speaking invitation, contact) work with no extra code. Submissions appear under **Forms** in Netlify, and you can turn on email notifications to forward them to Pastor Bola's office.
+3. Once the site is on Netlify, the three forms (newsletter, speaking invitation, contact) work with no extra code. Submissions appear under **Forms** in Netlify, and you can turn on email notifications to forward them to Pastor Bola's office.
 
 The preview is hidden from search engines: `robots.txt` disallows crawling and every page has a `noindex` tag. At launch, set `"isPreview": false` in `src/_data/site.json` and remove the `Disallow` line in `src/robots.txt`.
 
@@ -41,8 +41,8 @@ Home · Her story · Ministry · Made for More · Books · Watch & listen · Spe
 ## What changed from the ChatGPT version
 
 - **Readable type.** Body text is now 17px (was 12–13px) and labels are 12px (were 7–9px). This also meets accessibility contrast.
-- **New pages:** Made for More (purpose, what to expect, a timeline of editions from 2016 to 2026, gallery) and Press kit (short and full bios with copy buttons, fact sheet, photo downloads, name guidance).
-- **Working forms** on Netlify: newsletter, book launch list, speaking invitation and contact, each with spam protection. The old version only prepared a text draft.
+- **New pages:** Made for More (purpose, what to expect, a timeline of editions from 2015 to 2026, gallery) and Press kit (short and full bios with copy buttons, fact sheet, photo downloads, name guidance).
+- **Working forms** on Netlify: newsletter, speaking invitation and contact, each with spam protection. The old version only prepared a text draft.
 - **Videos play in place** in a lightbox, using YouTube's privacy-enhanced mode.
 - **More content:** six messages with filters, an "In the press" strip with four real articles, a "Where she has ministered" list, FAQs on Books and Speaking, a journey timeline and values on Her story, and Better Half and the conferences she co-hosts on Ministry.
 - **Polish:** hero entrance animation, rotating "Made for More · Women who build" seal, scrolling identity marquee, scroll reveals (switched off for users who prefer reduced motion), and a header that compacts on scroll.
