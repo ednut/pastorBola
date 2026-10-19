@@ -31,7 +31,7 @@ The static build was written so each piece has an obvious home in a classic PHP 
 | Data file | Custom post type | Fields (ACF) |
 | --- | --- | --- |
 | `messages.json` | `message` | category (taxonomy: Teaching / Better Half / Conversations), kind, context, description, youtube_id, external_url, featured (bool), featured image |
-| `books.json` | `book` | status (forthcoming / available), kicker, cover_title, subtitle, release, summary, buy_links (repeater: label + url), cover image |
+| `books.json` | `book` | kicker, cover_title, subtitle, summary, amazon_url, download_url, cover image |
 | `editions.json` | `edition` (Made for More) | year, theme, detail, source_url, is_current |
 | `topics.json` | `topic` | summary (order by menu_order) |
 | `press.json` | `press_item` | outlet, date_label, url |
@@ -42,7 +42,7 @@ Keep the field names identical to the JSON keys so the PHP templates read like t
 
 Netlify Forms will not exist on WordPress. Swap each `<form data-netlify>` for:
 
-- Newsletter and book launch list → the chosen mailing-list plugin (MC4WP for Mailchimp, or Brevo).
+- Newsletter → the chosen mailing-list plugin (MC4WP for Mailchimp, or Brevo).
 - Speaking invitation and contact → Gravity Forms or Fluent Forms, with the same fields and notifications to the office email.
 
 Keep the class names (`.form`, `.field`, `.input`, `.panel`) so the styling carries over.
