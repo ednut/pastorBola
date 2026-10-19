@@ -1,62 +1,86 @@
 ---
 layout: layouts/base.njk
-title: Books & resources
+title: Women Who Build
 pageClass: books
 permalink: /books/
-description: Download Pastor Bola Akinlabi's first book, Words to Build On. Words of faith, purpose and practical wisdom for every season.
+description: Women Who Build, the first book from Pastor Bola Akinlabi. Lessons from the women of Scripture on identity, strength to build and purpose. About the book and the author.
 ---
+{#- → WordPress: single-book.php. Order links come from the `downloadUrl` and `amazonUrl` fields in _data/books.json. -#}
 {%- from "partials/macros.njk" import arrow, bookCover, pageHero -%}
+{%- set book = books[0] -%}
+{%- set available = book.downloadUrl or book.amazonUrl -%}
 
-{{ pageHero("Books & resources", "Words to <em>build on.</em>", "Pastor Bola’s first book: words of faith, purpose and practical wisdom for every season.") }}
+{{ pageHero("", "Women Who <em>Build.</em>", "Your beginning may be small. Pick up your tools anyway.") }}
 
-{%- for book in books %}
 <section class="section" style="padding-top:0" aria-labelledby="book-{{ book.slug }}">
   <div class="wrap split">
     <div class="reveal" style="padding-block:var(--s-4)">{{ bookCover(book) }}</div>
     <div>
-      <span class="tag reveal">{% if book.downloadUrl %}Available to download{% else %}Coming soon{% endif %}</span>
-      <h2 id="book-{{ book.slug }}" class="mt-3 reveal" data-delay="1">{{ book.coverTitle | safe }}</h2>
-      <p class="muted mt-3 reveal" data-delay="2">{{ book.summary }}{% if book.downloadUrl %} Download your copy directly, with no sign-up needed.{% endif %}</p>
+      <span class="tag reveal">{% if available %}Available now{% else %}Coming soon{% endif %}</span>
+      <h2 id="book-{{ book.slug }}" class="mt-3 reveal" data-delay="1">A book by <em>Pastor Bola Akinlabi.</em></h2>
+      <p class="muted mt-3 reveal" data-delay="2">{{ book.summary }}</p>
       <dl class="factsheet mt-4 reveal" data-delay="2">
         <dt>Title</dt><dd>{{ book.title }}</dd>
         <dt>Author</dt><dd>Bola Akinlabi</dd>
-        <dt>Format</dt><dd>{{ book.format }}</dd>
+        <dt>Availability</dt><dd>{% if available %}Available now{% else %}To be announced{% endif %}</dd>
       </dl>
-      {%- if book.downloadUrl %}
-      <div class="btn-row mt-4 reveal" data-delay="3">
-        <a class="btn" href="{{ book.downloadUrl }}" download>{{ book.downloadLabel }} {{ arrow() }}</a>
-        <a class="link" href="/contact/">Share it with your group {{ arrow() }}</a>
-      </div>
-      {%- endif %}
 
-    </div>
-  </div>
-</section>
-{%- endfor %}
-
-<section class="section section--parchment" aria-labelledby="themes-title">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <h2 id="themes-title" class="reveal" data-delay="1">Faith for <em>everyday life.</em></h2>
+      <div class="panel mt-4 reveal" data-delay="3" id="order" style="background:var(--c-parchment);border-color:var(--c-parchment)">
+        <h3 style="font-size:1.6rem">How to order</h3>
+        {%- if available %}
+        <p class="form-note mt-1">Choose how you would like to get your copy.</p>
+        <div class="btn-row mt-3">
+          {%- if book.amazonUrl %}<a class="btn" href="{{ book.amazonUrl }}" target="_blank" rel="noopener">{{ book.orderLabel }} {{ arrow() }}</a>{% endif %}
+          {%- if book.downloadUrl %}<a class="btn{% if book.amazonUrl %} btn--ghost{% endif %}" href="{{ book.downloadUrl }}" download>{{ book.downloadLabel }} {{ arrow() }}</a>{% endif %}
+        </div>
+        {%- else %}
+        <p class="form-note mt-1">The book will be available to order on Amazon. The link will appear here as soon as the book is released.</p>
+        {%- endif %}
       </div>
-    </div>
-    <div class="cards-3">
-      <div class="card reveal"><h3>Purpose &amp; calling</h3><p>Discovering what God has placed in your hands, and having the courage to build with it.</p></div>
-      <div class="card reveal" data-delay="1"><h3>Leadership</h3><p>Excellence, structure and integrity, from the boardroom to the church and the home.</p></div>
-      <div class="card reveal" data-delay="2"><h3>Family &amp; restoration</h3><p>Strong marriages, nurtured children, and hope for what has been lost.</p></div>
     </div>
   </div>
 </section>
 
-<section class="section" aria-labelledby="faq-title">
+<section class="section section--parchment" aria-labelledby="about-book-title">
+  <div class="wrap story">
+    <div class="story__photo reveal">
+      <h2 id="about-book-title" style="font-size:var(--fs-xl)">About the <em>book.</em></h2>
+    </div>
+    <div class="story__body">
+      <p class="reveal">Somewhere along the way, many women were handed a quiet lie, that building belongs to someone else. The boardroom, the business, the ministry and the legacy are for others, they were told, and her part is to cheer from the sidelines or simply cope.</p>
+      <blockquote class="pull reveal">Women Who Build says otherwise.</blockquote>
+      <p class="reveal">Written by a woman who has spent years training and counselling women, this book explores the subject that you are not an afterthought, and your assignment is not an accident.</p>
+      <p class="reveal">Drawing lessons from the lives of women in Scripture, Women Who Build explores what it means to embrace your God-given identity, develop the strength to build, and fulfil your purpose across the different areas of your life. It reveals that you can build from a small beginning, rebuild after a season of brokenness, and bring to completion what God has placed in your heart.</p>
+      <p class="reveal">This is not a book for the woman who has it all figured out. This is not a book about perfection or waiting for ideal conditions. It is about starting where you are, with what you have, and trusting the God who builds through you. Your beginning may be small. Pick up your tools anyway.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="about-author-title">
+  <div class="wrap story">
+    <div class="story__photo reveal">
+      <div class="intro__arch"><img src="/assets/images/bola-portrait-cutout.webp" alt="Portrait of Pastor Bola Akinlabi" loading="lazy" decoding="async" width="538" height="675"></div>
+      <p class="caption">Pastor Bola Akinlabi</p>
+    </div>
+    <div class="story__body">
+      <h2 id="about-author-title" class="reveal">About the <em>author.</em></h2>
+      <p class="reveal">Bola Akinlabi is a teacher, visionary leader and mentor who is passionate about helping people discover their God-given identity, embrace their purpose and live lives of lasting impact. She is the Global Co-Lead Pastor of The Elevation Church, where she provides strategic leadership and helps to shape the church’s vision and spiritual growth.</p>
+      <p class="reveal">Bola is the visionary behind Jewels, The Elevation Church’s women’s ministry, and is the convener of the annual Made for More Conference, as well as the Women Who Build movement, empowering women to walk confidently in identity, embrace their calling, and pursue the extraordinary lives they were created to live.</p>
+      <p class="reveal">Before dedicating herself fully to ministry, Bola served at the highest levels within a leading financial institution, earning a reputation for excellence, integrity, and strategic leadership. She holds a Bachelor’s Degree in Economics from Ahmadu Bello University, Zaria, an MBA from the University of Lagos (Unilag), and a Postgraduate Diploma in Financial Strategy from the University of Oxford. She is also a Certified John Maxwell Leadership Trainer, recognised for her passion for developing leaders.</p>
+      <p class="reveal">As a wife and mother who has built across the boardroom, the pulpit and the home, she writes Women Who Build from lived experience, with honesty, warmth and conviction. She is the loving wife of Pastor Godman Akinlabi and the proud mother of two wonderful daughters.</p>
+      <div class="btn-row mt-4 reveal"><a class="link" href="/about/">Read her full story {{ arrow() }}</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--parchment" aria-labelledby="faq-title">
   <div class="wrap split" style="align-items:start">
     <div>
-      <h2 id="faq-title" class="mt-2 reveal" data-delay="1">For readers, churches <em>and groups.</em></h2>
+      <h2 id="faq-title" class="mt-2 reveal" data-delay="1">Questions <em>about the book.</em></h2>
     </div>
     <div class="faq reveal" data-delay="1">
-      <details><summary>How do I get the book?</summary><div><p>{% if book.downloadUrl %}Use the download button at the top of this page.{% else %}The download button will appear at the top of this page as soon as the book is available.{% endif %} There is no sign-up or waiting list.</p></div></details>
-      <details><summary>Can our church or women’s group share it?</summary><div><p>Yes. Send a note through the contact page and the team will help you share it with your church, small group or conference.</p></div></details>
+      <details><summary>How do I get the book?</summary><div><p>{% if available %}Use the buttons in the “How to order” box at the top of this page.{% else %}The book will be available to order on Amazon, and the link will appear in the “How to order” box at the top of this page as soon as it is released.{% endif %} There is no sign-up or waiting list.</p></div></details>
+      <details><summary>Can our church or women’s group order copies?</summary><div><p>Send a note through the contact page and the team will point you in the right direction.</p></div></details>
     </div>
   </div>
 </section>

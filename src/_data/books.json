@@ -1,17 +1,15 @@
 [
   {
-    "slug": "words-to-build-on",
-    "status": "available",
-    "statusLabel": "Coming soon",
+    "slug": "women-who-build",
+    "status": "forthcoming",
     "kicker": "Faith · Purpose · Legacy",
-    "title": "Words to Build On",
-    "coverTitle": "Words to build <em>on.</em>",
+    "title": "Women Who Build",
+    "coverTitle": "Women Who <em>Build.</em>",
     "subtitle": "The first book from Pastor Bola Akinlabi",
-    "release": "To be announced",
-    "summary": "Words of faith, purpose and practical wisdom for every season, written by Pastor Bola Akinlabi.",
-    "buy": [],
-    "format": "Digital download",
+    "summary": "Drawing lessons from the lives of women in Scripture, Women Who Build explores what it means to embrace your God-given identity, develop the strength to build, and fulfil your purpose.",
     "downloadUrl": "",
-    "downloadLabel": "Download the book"
+    "downloadLabel": "Download the book",
+    "amazonUrl": "",
+    "orderLabel": "Order on Amazon"
   }
 ]
