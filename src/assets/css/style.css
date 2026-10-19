@@ -452,7 +452,6 @@ a.card:hover{transform:translateY(-4px);box-shadow:0 24px 50px -32px #2b0a1a66}
 .prose p,.prose li{color:var(--c-muted)}
 .prose ul{padding-left:1.25rem;margin-top:1rem}
 
-.notice{display:flex;gap:1rem;padding:1rem 1.25rem;border:1px dashed var(--c-gold);background:#fff6e6;font-size:.92rem;color:var(--c-muted)}
 
 /* 9. Motion --------------------------------------------------------------- */
 .js .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
