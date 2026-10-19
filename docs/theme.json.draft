@@ -7,15 +7,18 @@
       "custom": false,
       "defaultPalette": false,
       "palette": [
-        { "slug": "plum-900", "name": "Deep plum", "color": "#2a1b25" },
-        { "slug": "plum", "name": "Plum", "color": "#432d3b" },
-        { "slug": "berry", "name": "Oxblood", "color": "#754657" },
-        { "slug": "gold", "name": "Muted gold", "color": "#ad9063" },
-        { "slug": "gold-soft", "name": "Soft gold", "color": "#d6c19c" },
-        { "slug": "ivory", "name": "Warm ivory", "color": "#f7f3ed" },
-        { "slug": "parchment", "name": "Parchment", "color": "#ede5d9" },
-        { "slug": "ink", "name": "Ink", "color": "#2e262b" },
-        { "slug": "muted", "name": "Muted text", "color": "#6a5c64" }
+        { "slug": "plum-900", "name": "Deep aubergine", "color": "#2b0a1a" },
+        { "slug": "plum", "name": "Ruby", "color": "#8a1538" },
+        { "slug": "plum-hover", "name": "Dark ruby", "color": "#701030" },
+        { "slug": "berry", "name": "Raspberry", "color": "#a3204a" },
+        { "slug": "gold", "name": "Gold", "color": "#d4a23a" },
+        { "slug": "gold-soft", "name": "Soft gold", "color": "#f0cf7a" },
+        { "slug": "gold-text", "name": "Gold text", "color": "#8a6414" },
+        { "slug": "ivory", "name": "Ivory", "color": "#fffaf5" },
+        { "slug": "parchment", "name": "Blush", "color": "#f8e9e7" },
+        { "slug": "sand", "name": "Sand", "color": "#f1dcd8" },
+        { "slug": "ink", "name": "Ink", "color": "#261a20" },
+        { "slug": "muted", "name": "Muted text", "color": "#6b5560" }
       ]
     },
     "typography": {

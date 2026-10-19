@@ -57,7 +57,10 @@ description: Made for More is the annual women's conference convened by Pastor B
       <div class="timeline__item{% if e.current %} timeline__item--now{% endif %}">
         <p class="timeline__year">{{ e.year }}</p>
         <p class="timeline__theme">{{ e.theme }}</p>
-        <p class="timeline__detail">{{ e.detail }}</p>
+        {%- if e.note %}
+        <p class="timeline__note">{{ e.note }}</p>
+        {%- endif %}
+        <p class="timeline__speakers">{{ e.speakers }}</p>
       </div>
       {%- endfor %}
     </div>

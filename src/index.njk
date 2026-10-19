@@ -12,8 +12,8 @@ description: Pastor Bola Akinlabi — Global Co-Lead Pastor of The Elevation Chu
       <h1 id="hero-title"><span class="line"><span>Rooted in faith.</span></span><span class="line"><span>Made for <em>more.</em></span></span></h1>
       <p class="hero__desc">Helping women and families grow in faith, walk in purpose and build lives of lasting impact.</p>
       <div class="btn-row">
-        <a class="btn" href="/about/">Meet Pastor Bola {{ arrow() }}</a>
-        <a class="link" href="/media/">Watch her teaching {{ arrow() }}</a>
+        <a class="btn" href="/speaking/">Invite Pastor Bola {{ arrow() }}</a>
+        <a class="link" href="/about/">Meet Pastor Bola {{ arrow() }}</a>
       </div>
       <div class="hero__role">
         <p>Global Co-Lead Pastor<strong>The Elevation Church</strong></p>
@@ -40,9 +40,10 @@ description: Pastor Bola Akinlabi — Global Co-Lead Pastor of The Elevation Chu
       <div class="intro__badge"><strong>Since 2010</strong><span>Co-founder of The Elevation Church with Pastor Godman Akinlabi</span></div>
     </div>
     <div class="intro__copy">
-      <h2 id="intro-title" class="reveal" data-delay="1">From the boardroom <em>to the pulpit.</em></h2>
+      <h2 id="intro-title" class="reveal" data-delay="1">Faith, structure <em>and stewardship.</em></h2>
       <div class="reveal" data-delay="2">
-        <p>Before giving herself fully to ministry, Pastor Bola served at senior level in treasury and financial management. Today she brings that same structure, excellence and warmth to leading The Elevation Church alongside her husband, Pastor Godman Akinlabi.</p>
+        <p>Alongside Pastor Godman Akinlabi, she serves as Global Co-Lead Pastor of The Elevation Church, bringing her own gifts to building the church. Years in treasury and financial management gave her a gift for structure, order and stewardship, and she now brings that foundation to how she serves.</p>
+        <p>Her strategic approach to leadership has helped shape key areas of church life, from the children’s ministry to the administration, people and financial structures that support the church’s growth.</p>
         <p>Through biblical teaching, Jewels and the Made for More Conference, she creates room for people to grow in their faith, their families and the purpose God has placed on their lives.</p>
       </div>
       <div class="btn-row mt-4 reveal" data-delay="3">
@@ -119,7 +120,10 @@ description: Pastor Bola Akinlabi — Global Co-Lead Pastor of The Elevation Chu
       <div class="timeline__item{% if e.current %} timeline__item--now{% endif %}">
         <p class="timeline__year">{{ e.year }}</p>
         <p class="timeline__theme">{{ e.theme }}</p>
-        <p class="timeline__detail">{{ e.detail }}</p>
+        {%- if e.note %}
+        <p class="timeline__note">{{ e.note }}</p>
+        {%- endif %}
+        <p class="timeline__speakers">{{ e.speakers }}</p>
       </div>
       {%- endfor %}
     </div>
@@ -169,6 +173,9 @@ description: Pastor Bola Akinlabi — Global Co-Lead Pastor of The Elevation Chu
       <div class="row reveal" data-delay="{{ loop.index0 }}"><span class="row__num">0{{ loop.index }}</span><div><h3>{{ t.title }}</h3><p>{{ t.summary }}</p></div></div>
       {%- endfor %}
     </div>
+  </div>
+  <div class="wrap" style="margin-top:var(--s-6)">
+    {% include "partials/why-invite.njk" %}
   </div>
 </section>
 
