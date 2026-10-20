@@ -11,6 +11,7 @@
     "downloadLabel": "Download the book",
     "amazonUrl": "",
     "orderLabel": "Order on Amazon",
-    "cover": "women-who-build-cover"
+    "cover": "women-who-build-cover",
+    "coverBack": "women-who-build-back"
   }
 ]

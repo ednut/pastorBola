@@ -51,12 +51,25 @@
 {#- Book cover object (CSS-drawn until real covers exist) -#}
 {% macro bookCover(b) %}
 {%- if b.cover %}
+{%- if b.coverBack %}
+<div class="book book--image book--flip">
+  <button class="book__flip" type="button" aria-pressed="false" aria-label="Turn the book over to see the back cover">
+    <span class="book__inner">
+      <span class="book__face book__face--front">{{ picture(b.cover, "Front cover of " + b.title + " by Bola Akinlabi", "", "lazy", 900, 1277) }}</span>
+      <span class="book__face book__face--back">{{ picture(b.coverBack, "Back cover of " + b.title, "", "eager", 745, 1101) }}</span>
+    </span>
+  </button>
+  <span class="book__hint" aria-hidden="true">Tap to see the back cover</span>
+  <span class="book-shadow"></span>
+</div>
+{%- else %}
 <div class="book book--image">
   <div class="book__cover">
     {{ picture(b.cover, "Cover of " + b.title + " by Bola Akinlabi", "", "lazy", 900, 1277) }}
   </div>
   <span class="book-shadow"></span>
 </div>
+{%- endif %}
 {%- else %}
 <div class="book" aria-hidden="true">
   <div class="book__cover">

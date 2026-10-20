@@ -125,4 +125,17 @@
       setTimeout(() => (btn.textContent = original), 2400);
     });
   });
+
+  /* Book: flip between front and back cover ------------------------------ */
+  document.querySelectorAll(".book--flip").forEach((book) => {
+    const btn = book.querySelector(".book__flip");
+    const hint = book.querySelector(".book__hint");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const flipped = book.classList.toggle("is-flipped");
+      btn.setAttribute("aria-pressed", String(flipped));
+      btn.setAttribute("aria-label", flipped ? "Turn the book over to see the front cover" : "Turn the book over to see the back cover");
+      if (hint) hint.textContent = flipped ? "Tap to see the front cover" : "Tap to see the back cover";
+    });
+  });
 })();
