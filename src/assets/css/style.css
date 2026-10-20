@@ -204,6 +204,20 @@ strong{font-weight:600}
 .book__star{position:relative;font-size:1.4rem;color:var(--c-gold)}
 .book-shadow{position:absolute;left:8%;right:-6%;bottom:-28px;height:28px;background:radial-gradient(closest-side,#0006,transparent);filter:blur(6px)}
 
+/* Book object with the real cover image */
+.book--image{width:min(380px,78%);aspect-ratio:900/1277}
+.book--image .book__cover{display:block;padding:0;background:none;border-radius:2px 5px 5px 2px;overflow:hidden;
+  box-shadow:
+    1px 0 0 #efe8dc,2px 0 0 #fff,3px 0 0 #e6ddd0,4px 0 0 #fff,5px 0 0 #dcd2c3,
+    inset 0 0 0 1px #ffffff1a,
+    0 40px 70px -26px #1a061099,0 16px 30px -14px #1a061066}
+.book--image .book__cover::before{display:none}
+.book--image .book__cover img{width:100%;height:100%;object-fit:cover}
+.book--image .book__cover::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(90deg,#00000059 0%,#00000026 1.2%,#ffffff33 2.4%,#00000033 3.6%,transparent 8%),
+    linear-gradient(115deg,#ffffff26 0%,transparent 38%,transparent 70%,#00000022 100%)}
+
 /* Forms */
 .form{display:grid;gap:1.4rem 1.5rem;grid-template-columns:repeat(2,minmax(0,1fr))}
 .form .full{grid-column:1/-1}

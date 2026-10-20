@@ -50,6 +50,14 @@
 
 {#- Book cover object (CSS-drawn until real covers exist) -#}
 {% macro bookCover(b) %}
+{%- if b.cover %}
+<div class="book book--image">
+  <div class="book__cover">
+    {{ picture(b.cover, "Cover of " + b.title + " by Bola Akinlabi", "", "lazy", 900, 1277) }}
+  </div>
+  <span class="book-shadow"></span>
+</div>
+{%- else %}
 <div class="book" aria-hidden="true">
   <div class="book__cover">
     <span class="book__spine"></span>
@@ -62,6 +70,7 @@
   </div>
   <span class="book-shadow"></span>
 </div>
+{%- endif %}
 {% endmacro %}
 
 {% macro pageHero(eyebrow, heading, lead) %}
