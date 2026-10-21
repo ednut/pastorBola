@@ -538,7 +538,7 @@ a.card:hover{transform:translateY(-4px);box-shadow:0 24px 50px -32px #2b0a1a66}
   .nav .btn{align-self:flex-start}
   .hero__grid{grid-template-columns:1fr;min-height:0}
   .hero__copy{padding:var(--s-5) var(--gutter) var(--s-5)}
-  .hero__visual{min-height:0;aspect-ratio:4/5;margin-inline:var(--gutter)}
+  .hero__visual{min-height:0;aspect-ratio:4/5;width:calc(100% - 2 * var(--gutter));margin-inline:var(--gutter);align-self:start}
   .hero__role{margin-top:var(--s-5)}
   .split,.split--wide-left,.split--wide-right,.story,.newsletter,.speaking-band,.ministry-layout,.page-hero--split{grid-template-columns:1fr}
   .story__photo{position:static;max-width:520px}
