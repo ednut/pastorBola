@@ -61,7 +61,7 @@ description: Invite Pastor Bola Akinlabi to speak at your conference, church, le
       </ol>
       <p class="form-note mt-4">Please allow at least eight weeks’ notice for in-person events.</p>
     </div>
-    <form class="panel reveal" data-delay="1" name="speaking-invitation" method="POST" data-netlify="true" netlify-honeypot="company" data-success="Thank you — your invitation has been received. Pastor Bola’s team will be in touch.">
+    <form class="panel reveal" data-delay="1" name="speaking-invitation" method="POST" action="/api/forms" data-form data-success="Thank you — your invitation has been received. Pastor Bola’s team will be in touch.">
       <input type="hidden" name="form-name" value="speaking-invitation">
       <p class="hp"><label>Company <input name="company" tabindex="-1" autocomplete="off"></label></p>
       <div class="form">

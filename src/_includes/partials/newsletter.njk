@@ -6,7 +6,7 @@
       <h2 id="newsletter-title">More for your <em>journey.</em></h2>
       <p class="muted mt-2">Encouragement from Pastor Bola, news from Made for More, and news about her book.</p>
     </div>
-    <form class="newsletter__form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="company" data-success="Thank you — you’re on the list. Look out for a word of encouragement soon.">
+    <form class="newsletter__form" name="newsletter" method="POST" action="/api/forms" data-form data-success="Thank you — you’re on the list. Look out for a word of encouragement soon.">
       <input type="hidden" name="form-name" value="newsletter">
       <p class="hp"><label>Company <input name="company" tabindex="-1" autocomplete="off"></label></p>
       <label class="visually-hidden" for="nl-email-{{ page.fileSlug or 'home' }}">Email address</label>

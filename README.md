@@ -54,7 +54,33 @@ The book page and the homepage teaser read `src/_data/books.json`.
 
 ## Forms
 
-The newsletter, speaking and contact forms use Netlify Forms attributes (`data-netlify`) and are submitted by `main.js` with a POST to `/`. They only work on Netlify. On any other host, replace the submit handler with that host's form service, or use a form plugin when moving to WordPress.
+Four forms post to one serverless function, `api/forms.js` (logic in `lib/forms.js`): the newsletter, the book waiting list, the speaking invitation and the contact form. The function sends email and saves contacts through [Brevo](https://www.brevo.com).
+
+| Form | Notifies the office | Confirmation to the person | Saved to a Brevo list |
+| --- | --- | --- | --- |
+| Newsletter | Yes | Yes | `BREVO_NEWSLETTER_LIST_ID` |
+| Book waiting list (name, email, phone) | Yes | Yes | `BREVO_WAITLIST_LIST_ID` |
+| Speaking invitation | Yes | Yes | No |
+| Contact | Yes | Yes | No |
+
+Nothing is sent until these settings are added in Vercel (Project, Settings, Environment Variables). The names are listed in `.env.example`:
+
+- `BREVO_API_KEY`
+- `FORMS_FROM_EMAIL`: a sender verified in Brevo, on the website domain
+- `FORMS_FROM_NAME` (optional)
+- `FORMS_NOTIFY_EMAIL`: the office inbox that receives submissions. Separate several with commas.
+- `FORMS_REPLY_TO` (optional)
+- `BREVO_WAITLIST_LIST_ID` and `BREVO_NEWSLETTER_LIST_ID`
+
+Setup in Brevo: create the account, create two contact lists (waiting list and newsletter), add the website domain under Senders & Domains and add the DNS records Brevo shows, then create an API key. Until the settings exist, the forms show a "not switched on yet" message instead of pretending to send.
+
+Spam protection: a hidden field that only bots fill in, a check that the form was sent from the site itself, and a small per-visitor limit.
+
+```bash
+npm test         # checks every form against a pretend Brevo
+```
+
+The function runs on Vercel only. `npm run dev` serves the pages, but submitting a form locally needs `vercel dev` or the preview deployment.
 
 ## Preview mode
 

@@ -85,23 +85,42 @@
   dialog?.addEventListener("click", (e) => { if (e.target === dialog) closeVideo(); });
   dialog?.addEventListener("close", () => { if (frameWrap) frameWrap.innerHTML = ""; });
 
-  /* Forms — Netlify Forms when hosted on Netlify; honest fallback elsewhere */
-  const encode = (form) => new URLSearchParams(new FormData(form)).toString();
-  document.querySelectorAll("form[data-netlify]").forEach((form) => {
+  /* Forms: sent to /api/forms (see lib/forms.js) ------------------------ */
+  document.querySelectorAll("form[data-form]").forEach((form) => {
     const status = form.querySelector(".form-status");
+    const say = (message, isError = false) => {
+      if (!status) return;
+      status.textContent = message;
+      status.setAttribute("role", isError ? "alert" : "status");
+    };
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
       const button = form.querySelector('[type="submit"]');
       const label = button?.innerHTML;
       if (button) { button.disabled = true; button.textContent = "Sending…"; }
+      say("");
       try {
-        const res = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: encode(form) });
-        if (!res.ok) throw new Error(res.status);
-        form.reset();
-        if (status) status.textContent = form.dataset.success || "Thank you — your message has been received.";
+        const res = await fetch(form.getAttribute("action") || "/api/forms", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          form.reset();
+          say(form.dataset.success || "Thank you — your message has been received.");
+        } else if (res.status === 422 && data.fields) {
+          say(Object.values(data.fields)[0], true);
+        } else if (res.status === 503) {
+          say("This form isn't switched on yet. Please reach Pastor Bola's team through Instagram @bollarinwa for now.", true);
+        } else if (res.status === 429) {
+          say("Too many attempts. Please wait a few minutes and try again.", true);
+        } else {
+          say("Sorry, something went wrong and your message wasn't sent. Please try again in a moment.", true);
+        }
       } catch {
-        if (status) status.textContent = "This preview can't send messages yet. Please reach Pastor Bola's team through Instagram @bollarinwa for now.";
+        say("Sorry, we couldn't send that. Please check your connection and try again.", true);
       } finally {
         if (button) { button.disabled = false; button.innerHTML = label; }
       }
