@@ -23,7 +23,7 @@ description: Get in touch with Pastor Bola Akinlabi's office for speaking invita
       <h2 id="msg-title" class="mt-2 reveal" data-delay="1" style="font-size:var(--fs-xl)">Write to <em>her office.</em></h2>
       <p class="muted mt-3 reveal" data-delay="2">For book and bulk-order enquiries, media requests and general messages. Her team reads every message and will reply where they can.</p>
     </div>
-    <form class="panel reveal" data-delay="1" name="contact" method="POST" data-netlify="true" netlify-honeypot="company" data-success="Thank you — your message has been received.">
+    <form class="panel reveal" data-delay="1" name="contact" method="POST" action="/api/forms" data-form data-success="Thank you — your message has been received.">
       <input type="hidden" name="form-name" value="contact">
       <p class="hp"><label>Company <input name="company" tabindex="-1" autocomplete="off"></label></p>
       <div class="form">

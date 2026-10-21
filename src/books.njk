@@ -26,18 +26,22 @@ description: Women Who Build, the first book from Pastor Bola Akinlabi. Lessons 
         <dt>Availability</dt><dd>{% if available %}Available now{% else %}To be announced{% endif %}</dd>
       </dl>
 
+      {%- if available %}
       <div class="panel mt-4 reveal" data-delay="3" id="order" style="background:var(--c-parchment);border-color:var(--c-parchment)">
         <h3 style="font-size:1.6rem">How to order</h3>
-        {%- if available %}
         <p class="form-note mt-1">Choose how you would like to get your copy.</p>
         <div class="btn-row mt-3">
           {%- if book.amazonUrl %}<a class="btn" href="{{ book.amazonUrl }}" target="_blank" rel="noopener">{{ book.orderLabel }} {{ arrow() }}</a>{% endif %}
           {%- if book.downloadUrl %}<a class="btn{% if book.amazonUrl %} btn--ghost{% endif %}" href="{{ book.downloadUrl }}" download>{{ book.downloadLabel }} {{ arrow() }}</a>{% endif %}
         </div>
-        {%- else %}
-        <p class="form-note mt-1">The book will be available to order on Amazon. The link will appear here as soon as the book is released.</p>
-        {%- endif %}
       </div>
+      {%- else %}
+      <div class="panel mt-4 reveal" data-delay="3" id="waitlist" style="background:var(--c-parchment);border-color:var(--c-parchment)">
+        <h3 style="font-size:1.6rem">Join the waiting list</h3>
+        <p class="form-note mt-1">Be the first to know when Women Who Build is available to order on Amazon.</p>
+        <div class="mt-3">{% include "partials/waitlist-form.njk" %}</div>
+      </div>
+      {%- endif %}
     </div>
   </div>
 </section>
@@ -80,7 +84,8 @@ description: Women Who Build, the first book from Pastor Bola Akinlabi. Lessons 
       <h2 id="faq-title" class="mt-2 reveal" data-delay="1">Questions <em>about the book.</em></h2>
     </div>
     <div class="faq reveal" data-delay="1">
-      <details><summary>How do I get the book?</summary><div><p>{% if available %}Use the buttons in the “How to order” box at the top of this page.{% else %}The book will be available to order on Amazon, and the link will appear in the “How to order” box at the top of this page as soon as it is released.{% endif %} There is no sign-up or waiting list.</p></div></details>
+      <details><summary>How do I get the book?</summary><div><p>{% if available %}Use the buttons in the “How to order” box at the top of this page.{% else %}Join the waiting list at the top of this page. We’ll email you as soon as the book is available to order on Amazon.{% endif %}</p></div></details>
+      <details><summary>What do you do with my details?</summary><div><p>We use your name, email address and phone number only to tell you about this book. See the <a class="link" href="/privacy/">privacy notice</a> for details.</p></div></details>
       <details><summary>Can our church or women’s group order copies?</summary><div><p>Send a note through the contact page and the team will point you in the right direction.</p></div></details>
     </div>
   </div>
