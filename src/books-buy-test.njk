@@ -1,0 +1,26 @@
+---
+layout: layouts/base.njk
+title: E-book checkout test
+pageClass: books
+permalink: /books/buy-test/
+noindex: true
+description: Private test page for the e-book checkout.
+---
+{#- A page nobody links to, used to test the e-book checkout while the public book page still shows the waiting list. -#}
+{%- from "partials/macros.njk" import arrow, pageHero -%}
+{%- set book = books[0] -%}
+
+{{ pageHero("", "Checkout <em>test.</em>", "") }}
+
+<section class="section" style="padding-top:0">
+  <div class="wrap prose">
+    {%- if book.ebook and book.ebook.file and (book.ebook.priceNgn or book.ebook.priceUsd) %}
+    <p class="muted">This page is only for testing the e-book checkout. Payments here use Korapay’s test mode while a test key is set.</p>
+    <div class="panel mt-3" style="background:var(--c-parchment);border-color:var(--c-parchment)">
+      {% include "partials/ebook-checkout.njk" %}
+    </div>
+    {%- else %}
+    <p class="muted">The e-book checkout is not switched on.</p>
+    {%- endif %}
+  </div>
+</section>

@@ -100,7 +100,7 @@ The code is in `lib/payments.js` and the four functions in `api/`. The price is 
 
 Until both of these are set, the e-book is off: the book page keeps its waiting list and the payment functions answer "not configured".
 
-1. In `src/_data/books.json`, under `ebook`, set `priceNgn` (whole naira) and/or `priceUsd` (whole US dollars), and `file` (the path of the file in the Blob store, for example `ebooks/women-who-build.pdf`). `filename` is the name the buyer's download gets.
+1. In `src/_data/books.json`, under `ebook`, set `public` to `true` only when the e-book should show on the public pages (the payment functions work as soon as a file and price exist, so a hidden test page at `/books/buy-test/` can be used first), and set `priceNgn` (whole naira) and/or `priceUsd` (whole US dollars), and `file` (the path of the file in the Blob store, for example `ebooks/women-who-build.pdf`). `filename` is the name the buyer's download gets.
 2. In Vercel, create a **private** Blob store (Project, Storage, Create, Blob, Private) and connect it to the project. Upload the e-book to that path. The store can be created and uploaded to with the `vercel blob` command or the dashboard.
 3. Add the settings below in Vercel (Project, Settings, Environment Variables). Use the test key first, then swap in the live key when testing is done.
 
