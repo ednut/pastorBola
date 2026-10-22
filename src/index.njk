@@ -36,11 +36,11 @@ description: Pastor Bola Akinlabi — Global Co-Lead Pastor of The Elevation Chu
   <div class="wrap split">
     <div class="reveal">{{ bookCover(book) }}</div>
     <div>
-      <span class="tag reveal">{% if book.downloadUrl or book.amazonUrl or (book.ebook and book.ebook.file and (book.ebook.priceNgn or book.ebook.priceUsd)) %}Available now{% else %}Coming soon{% endif %}</span>
+      <span class="tag reveal">{% if book.downloadUrl or book.amazonUrl or (book.ebook and book.ebook.public and book.ebook.file and (book.ebook.priceNgn or book.ebook.priceUsd)) %}Available now{% else %}Coming soon{% endif %}</span>
       <h2 id="books-title" class="mt-3 reveal" data-delay="1">A new chapter. <em>The same heart.</em></h2>
-      <p class="muted mt-3 reveal" data-delay="2" style="max-width:32rem">Women Who Build, Pastor Bola’s first book, draws on the lives of women in Scripture to help you embrace your identity, build with strength and fulfil your purpose.{% if book.ebook and book.ebook.file and (book.ebook.priceNgn or book.ebook.priceUsd) %} Get the e-book today.{% elif not (book.downloadUrl or book.amazonUrl) %} Join the waiting list to be the first to know when it is available.{% endif %}</p>
+      <p class="muted mt-3 reveal" data-delay="2" style="max-width:32rem">Women Who Build, Pastor Bola’s first book, draws on the lives of women in Scripture to help you embrace your identity, build with strength and fulfil your purpose.{% if book.ebook and book.ebook.public and book.ebook.file and (book.ebook.priceNgn or book.ebook.priceUsd) %} Get the e-book today.{% elif not (book.downloadUrl or book.amazonUrl) %} Join the waiting list to be the first to know when it is available.{% endif %}</p>
       <div class="btn-row mt-4 reveal" data-delay="3">
-        {% if book.downloadUrl or book.amazonUrl or (book.ebook and book.ebook.file and (book.ebook.priceNgn or book.ebook.priceUsd)) %}<a class="btn btn--light" href="/books/#order">Get the book {{ arrow() }}</a>{% else %}<a class="btn btn--light" href="/books/#waitlist">Join the waiting list {{ arrow() }}</a><a class="link" href="/books/">About the book {{ arrow() }}</a>{% endif %}
+        {% if book.downloadUrl or book.amazonUrl or (book.ebook and book.ebook.public and book.ebook.file and (book.ebook.priceNgn or book.ebook.priceUsd)) %}<a class="btn btn--light" href="/books/#order">Get the book {{ arrow() }}</a>{% else %}<a class="btn btn--light" href="/books/#waitlist">Join the waiting list {{ arrow() }}</a><a class="link" href="/books/">About the book {{ arrow() }}</a>{% endif %}
       </div>
     </div>
   </div>
