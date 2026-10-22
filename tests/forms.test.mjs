@@ -233,3 +233,16 @@ test("zeptomail: a key without its web address is treated as not set up", async 
   assert.equal(r.status, 503);
   assert.equal(calls.length, 0);
 });
+
+test("errors from the email service are logged with a short reason and no email addresses", async () => {
+  const logged = [];
+  const original = console.error; console.error = (m) => logged.push(String(m));
+  try {
+    const fetchImpl = async () => ({ ok: false, status: 400, text: async () => '{"error":{"code":"TM_3301","message":"Sender address not verified","details":"to ada@example.com"}}' });
+    const r = await handleSubmission({ "form-name": "contact", name: "A", email: "ada@example.com", message: "Hi" }, { env: zeptoEnv, fetchImpl });
+    assert.equal(r.status, 502);
+  } finally { console.error = original; }
+  const line = logged.find((l) => l.includes("notify failed"));
+  assert.match(line, /400/); assert.match(line, /TM_3301/); assert.match(line, /Sender address not verified/);
+  assert.doesNotMatch(line, /ada@example\.com/);
+});
