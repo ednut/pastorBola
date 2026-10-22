@@ -134,6 +134,14 @@
     });
   });
 
+  /* E-book checkout: choose naira for visitors in Nigeria, dollars for everyone else (they can change it) */
+  document.querySelectorAll("[data-currency]").forEach((group) => {
+    const zone = (Intl.DateTimeFormat().resolvedOptions().timeZone || "");
+    const pick = zone === "Africa/Lagos" ? "NGN" : "USD";
+    const radio = group.querySelector(`input[value="${pick}"]`);
+    if (radio) radio.checked = true;
+  });
+
   /* E-book thank-you page: confirm the payment, then show the download ---- */
   const box = document.getElementById("ebook-status");
   if (box) {
