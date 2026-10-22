@@ -25,12 +25,13 @@ const paid = (over = {}) => ({ status: "success", amount: 3500, amount_paid: 350
 test("ebookOffer: off until there is a file and at least one whole-number price", () => {
   const mk = (ebook) => ebookOffer([{ title: "T", ebook }]);
   assert.equal(ebookOffer([{ title: "T" }]), null);
-  assert.equal(mk({ priceNgn: 0, priceUsd: 0, file: "a.pdf" }), null);
-  assert.equal(mk({ priceNgn: 3500, file: "" }), null);
-  assert.equal(mk({ priceNgn: 35.5, file: "a.pdf" }), null, "no fractions");
-  assert.deepEqual(mk({ priceNgn: 3500, priceUsd: 0, file: "a.pdf" }), { title: "T", prices: { NGN: 3500 }, file: "a.pdf", filename: "Women-Who-Build.pdf" });
-  assert.deepEqual(mk({ priceNgn: 3500, priceUsd: 10, file: "a.pdf", filename: "x.pdf" }).prices, { NGN: 3500, USD: 10 });
-  assert.deepEqual(mk({ priceUsd: 10, file: "a.pdf" }).prices, { USD: 10 });
+  assert.equal(mk({ prices: {}, file: "a.pdf" }), null);
+  assert.equal(mk({ prices: { NGN: 0, USD: 0 }, file: "a.pdf" }), null);
+  assert.equal(mk({ prices: { NGN: 3500 }, file: "" }), null);
+  assert.equal(mk({ prices: { NGN: 35.5 }, file: "a.pdf" }), null, "no fractions");
+  assert.equal(mk({ prices: { naira: 3500 }, file: "a.pdf" }), null, "currency must be a 3-letter code");
+  assert.deepEqual(mk({ prices: { NGN: 8000, GBP: 5, USD: 8, EUR: 6, CAD: 11, XXX: 0 }, file: "a.pdf" }).prices, { NGN: 8000, GBP: 5, USD: 8, EUR: 6, CAD: 11 });
+  assert.equal(mk({ prices: { USD: 10 }, file: "a.pdf", filename: "x.pdf" }).filename, "x.pdf");
 });
 
 test("references are random and recognisable", () => {
@@ -205,4 +206,20 @@ test("the answers tell a missing key apart from an e-book that is simply not on 
   assert.equal((await paymentStatus(ref, { env: {}, offer, ...k })).body.error, "not_configured");
   assert.equal((await paymentStatus(ref, { env, offer: null, ...k })).body.error, "not_for_sale");
   assert.equal(k.calls.length, 0, "no call to Korapay either way");
+});
+
+test("every configured currency can be charged, and each is checked against its own price", async () => {
+  const five = { ...offer, prices: { NGN: 8000, GBP: 5, USD: 8, EUR: 6, CAD: 11 } };
+  for (const [code, amount] of Object.entries(five.prices)) {
+    const k = fakeKora();
+    const r = await startCheckout({ name: "Ada", email: "a@b.co", currency: code }, { env, fetchImpl: k.fetchImpl, offer: five, origin });
+    assert.equal(r.status, 200, code);
+    assert.equal(k.calls[0].body.currency, code); assert.equal(k.calls[0].body.amount, amount);
+    const ok = await checkPayment(newReference(), { env, offer: five, ...fakeKora({ charge: paid({ currency: code, amount, amount_paid: amount }) }) });
+    assert.equal(ok.state, "paid", code);
+    const short = await checkPayment(newReference(), { env, offer: five, ...fakeKora({ charge: paid({ currency: code, amount: amount - 1, amount_paid: amount - 1 }) }) });
+    assert.equal(short.state, "wrong_amount", `${code} underpaid`);
+  }
+  const wrongCurrency = await checkPayment(newReference(), { env, offer: five, ...fakeKora({ charge: paid({ currency: "JPY", amount: 99999, amount_paid: 99999 }) }) });
+  assert.equal(wrongCurrency.state, "wrong_amount");
 });

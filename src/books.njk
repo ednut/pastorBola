@@ -9,7 +9,7 @@ description: Women Who Build, the first book from Pastor Bola Akinlabi. Lessons 
 {#- → WordPress: single-book.php. Order links come from the `downloadUrl` and `amazonUrl` fields in _data/books.json. -#}
 {%- from "partials/macros.njk" import arrow, bookCover, pageHero -%}
 {%- set book = books[0] -%}
-{%- set ebookReady = book.ebook and book.ebook.public and book.ebook.file and (book.ebook.priceNgn or book.ebook.priceUsd) -%}
+{%- set ebookReady = book.ebook and book.ebook.public and book.ebook.file and book.ebook.prices -%}
 {%- set available = book.downloadUrl or book.amazonUrl or ebookReady -%}
 
 {{ pageHero("", "Women Who <em>Build.</em>", "Your beginning may be small. Pick up your tools anyway.") }}
@@ -25,7 +25,7 @@ description: Women Who Build, the first book from Pastor Bola Akinlabi. Lessons 
         <dt>Title</dt><dd>{{ book.title }}</dd>
         <dt>Author</dt><dd>Bola Akinlabi</dd>
         {%- if ebookReady %}
-        <dt>Format</dt><dd>E-book, {% if book.ebook.priceNgn %}{{ book.ebook.priceNgn | naira }}{% endif %}{% if book.ebook.priceNgn and book.ebook.priceUsd %} or {% endif %}{% if book.ebook.priceUsd %}{{ book.ebook.priceUsd | usd }}{% endif %}</dd>
+        <dt>Format</dt><dd>E-book, from {{ book.ebook.prices.GBP | money("GBP") if book.ebook.prices.GBP else (book.ebook.prices.NGN | money("NGN")) }}</dd>
         {%- endif %}
         <dt>Availability</dt><dd>{% if available %}Available now{% else %}To be announced{% endif %}</dd>
       </dl>

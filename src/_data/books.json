@@ -15,8 +15,13 @@
     "coverBack": "women-who-build-back",
     "ebook": {
       "public": false,
-      "priceNgn": 100,
-      "priceUsd": 0,
+      "prices": {
+        "NGN": 8000,
+        "GBP": 5,
+        "USD": 8,
+        "EUR": 6,
+        "CAD": 10
+      },
       "file": "WOMEN WHO BUILD.pdf",
       "filename": "Women-Who-Build.pdf"
     }
