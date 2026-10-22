@@ -119,12 +119,14 @@
           say(form.dataset.success || "Thank you — your message has been received.");
         } else if (res.status === 422 && data.fields) {
           say(Object.values(data.fields)[0], true);
+        } else if (res.status === 502 && data.error === "checkout_failed") {
+          say("We couldn't start the payment in that currency. Please choose another currency and try again.", true);
         } else if (res.status === 503) {
           say("This form isn't switched on yet. Please reach Pastor Bola's team through Instagram @bollarinwa for now.", true);
         } else if (res.status === 429) {
           say("Too many attempts. Please wait a few minutes and try again.", true);
         } else {
-          say("Sorry, something went wrong and your message wasn't sent. Please try again in a moment.", true);
+          say("Sorry, something went wrong. Please try again in a moment.", true);
         }
       } catch {
         say("Sorry, we couldn't send that. Please check your connection and try again.", true);
@@ -184,6 +186,8 @@
           show("Your payment was not completed", "No money has been taken. You can try again whenever you are ready.", { href: "/books/#order", label: "Try again" });
         } else if (res.ok && data.state === "wrong_amount") {
           show("We could not confirm the full amount", "Please contact Pastor Bola's team so we can sort this out.", { href: "/contact/", label: "Contact the team" });
+        } else if (res.status === 502 && data.error === "checkout_failed") {
+          say("We couldn't start the payment in that currency. Please choose another currency and try again.", true);
         } else if (res.status === 503) {
           show("This is not switched on yet", "Please contact Pastor Bola's team.", { href: "/contact/", label: "Contact the team" });
         } else {
