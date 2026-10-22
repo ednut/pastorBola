@@ -7,7 +7,7 @@ import {
 } from "../lib/payments.js";
 
 const env = { KORAPAY_SECRET_KEY: "sk_test_abc" };
-const offer = { title: "Women Who Build", price: 3500, file: "ebooks/women-who-build.pdf", filename: "Women-Who-Build.pdf" };
+const offer = { title: "Women Who Build", prices: { NGN: 3500, USD: 10 }, file: "ebooks/women-who-build.pdf", filename: "Women-Who-Build.pdf" };
 const origin = "https://www.example.org";
 
 // A pretend Korapay. `charge` is what "GET /charges/:reference" returns.
@@ -22,12 +22,15 @@ function fakeKora({ initialize, charge, chargeStatus = 200, initStatus = 200 } =
 }
 const paid = (over = {}) => ({ status: "success", amount: 3500, amount_paid: 3500, currency: "NGN", metadata: { email: "ada@example.com", name: "Ada Okafor" }, ...over });
 
-test("ebookOffer: off until there is a price and a file", () => {
+test("ebookOffer: off until there is a file and at least one whole-number price", () => {
+  const mk = (ebook) => ebookOffer([{ title: "T", ebook }]);
   assert.equal(ebookOffer([{ title: "T" }]), null);
-  assert.equal(ebookOffer([{ title: "T", ebook: { priceNgn: 0, file: "a.pdf" } }]), null);
-  assert.equal(ebookOffer([{ title: "T", ebook: { priceNgn: 3500, file: "" } }]), null);
-  assert.equal(ebookOffer([{ title: "T", ebook: { priceNgn: 35.5, file: "a.pdf" } }]), null);
-  assert.deepEqual(ebookOffer([{ title: "T", ebook: { priceNgn: 3500, file: "a.pdf" } }]), { title: "T", price: 3500, file: "a.pdf", filename: "Women-Who-Build.pdf" });
+  assert.equal(mk({ priceNgn: 0, priceUsd: 0, file: "a.pdf" }), null);
+  assert.equal(mk({ priceNgn: 3500, file: "" }), null);
+  assert.equal(mk({ priceNgn: 35.5, file: "a.pdf" }), null, "no fractions");
+  assert.deepEqual(mk({ priceNgn: 3500, priceUsd: 0, file: "a.pdf" }), { title: "T", prices: { NGN: 3500 }, file: "a.pdf", filename: "Women-Who-Build.pdf" });
+  assert.deepEqual(mk({ priceNgn: 3500, priceUsd: 10, file: "a.pdf", filename: "x.pdf" }).prices, { NGN: 3500, USD: 10 });
+  assert.deepEqual(mk({ priceUsd: 10, file: "a.pdf" }).prices, { USD: 10 });
 });
 
 test("references are random and recognisable", () => {
@@ -67,6 +70,22 @@ test("checkout: asks Korapay with the server's price and sends the buyer to the 
   assert.deepEqual(Object.keys(c.body.metadata).sort(), ["email", "name", "product"]);
 });
 
+test("checkout: naira is the default, dollars can be chosen, and unknown currencies are refused", async () => {
+  const usd = fakeKora();
+  const r = await startCheckout({ name: "Ada", email: "ada@example.com", currency: "usd" }, { env, fetchImpl: usd.fetchImpl, offer, origin });
+  assert.equal(r.status, 200);
+  assert.equal(usd.calls[0].body.amount, 10); assert.equal(usd.calls[0].body.currency, "USD");
+  const def = fakeKora();
+  await startCheckout({ name: "Ada", email: "ada@example.com" }, { env, fetchImpl: def.fetchImpl, offer, origin });
+  assert.equal(def.calls[0].body.currency, "NGN"); assert.equal(def.calls[0].body.amount, 3500);
+  const gbp = fakeKora();
+  const bad = await startCheckout({ name: "Ada", email: "ada@example.com", currency: "GBP" }, { env, fetchImpl: gbp.fetchImpl, offer, origin });
+  assert.equal(bad.status, 422); assert.ok(bad.body.fields.currency); assert.equal(gbp.calls.length, 0);
+  const only = fakeKora();
+  await startCheckout({ name: "Ada", email: "ada@example.com" }, { env, fetchImpl: only.fetchImpl, offer: { ...offer, prices: { USD: 10 } }, origin });
+  assert.equal(only.calls[0].body.currency, "USD", "a dollars-only offer defaults to dollars");
+});
+
 test("checkout: validates, ignores bots, and says so when not switched on or when Korapay fails", async () => {
   const k = fakeKora();
   assert.equal((await startCheckout({ name: "", email: "bad" }, { env, fetchImpl: k.fetchImpl, offer, origin })).status, 422);
@@ -84,7 +103,9 @@ test("checkPayment: only a full, successful naira payment counts", async () => {
   const run = (charge, extra = {}) => checkPayment(ref, { env, offer, ...fakeKora({ charge, ...extra }) });
   assert.deepEqual(await run(paid()), { state: "paid", email: "ada@example.com", name: "Ada Okafor" });
   assert.equal((await run(paid({ amount_paid: 1000 }))).state, "wrong_amount");
-  assert.equal((await run(paid({ currency: "USD" }))).state, "wrong_amount");
+  assert.equal((await run(paid({ currency: "GBP" }))).state, "wrong_amount", "a currency we do not sell in");
+  assert.equal((await run(paid({ currency: "USD", amount: 10, amount_paid: 10 }))).state, "paid", "full dollar price");
+  assert.equal((await run(paid({ currency: "USD", amount: 5, amount_paid: 5 }))).state, "wrong_amount", "dollar underpayment");
   assert.equal((await run({ status: "failed" })).state, "failed");
   assert.equal((await run({ status: "processing" })).state, "pending");
   assert.equal((await run(undefined, { chargeStatus: 404 })).state, "unknown");

@@ -253,6 +253,9 @@ strong{font-weight:600}
 .hp{position:absolute!important;left:-9999px!important}
 .check{display:flex;gap:.75rem;align-items:flex-start;font-size:.92rem;line-height:1.5;color:var(--c-muted);cursor:pointer}
 .check input{flex:none;width:1.25rem;height:1.25rem;margin-top:.1rem;accent-color:var(--c-plum)}
+.currency{border:0;padding:0;margin:0;min-width:0;display:grid;gap:.6rem}
+.currency legend{padding:0;margin-bottom:.6rem;font-size:var(--fs-sm);font-weight:600;color:var(--c-ink)}
+.currency .check{color:var(--c-ink);font-size:1rem;align-items:center}
 .panel{background:var(--c-white);border:1px solid var(--c-line);padding:clamp(1.5rem,1rem + 3vw,3.25rem)}
 
 /* Newsletter */
