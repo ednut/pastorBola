@@ -100,7 +100,7 @@ The code is in `lib/payments.js` and the four functions in `api/`. The price is 
 
 Until both of these are set, the e-book is off: the book page keeps its waiting list and the payment functions answer "not configured".
 
-1. In `src/_data/books.json`, under `ebook`, set `public` to `true` only when the e-book should show on the public pages (the payment functions work as soon as a file and price exist, so a hidden test page at `/books/buy-test/` can be used first), and set `priceNgn` (whole naira) and/or `priceUsd` (whole US dollars), and `file` (the path of the file in the Blob store, for example `ebooks/women-who-build.pdf`). `filename` is the name the buyer's download gets.
+1. In `src/_data/books.json`, under `ebook`, set `public` to `true` only when the e-book should show on the public pages (the payment functions work as soon as a file and price exist, so a hidden test page at `/books/buy-test/` can be used first), and set `prices` (a map of currency code to whole-number price, for example `"NGN": 8000, "GBP": 5, "USD": 8, "EUR": 6, "CAD": 11`) and `file` (the path of the file in the Blob store, for example `ebooks/women-who-build.pdf`). `filename` is the name the buyer's download gets.
 2. In Vercel, create a **private** Blob store (Project, Storage, Create, Blob, Private) and connect it to the project. Upload the e-book to that path. The store can be created and uploaded to with the `vercel blob` command or the dashboard.
 3. Add the settings below in Vercel (Project, Settings, Environment Variables). Use the test key first, then swap in the live key when testing is done.
 
@@ -114,7 +114,7 @@ Until both of these are set, the e-book is off: the book page keeps its waiting 
 
 `npm test` checks the whole flow against a pretend Korapay. To try it for real, use Korapay's test mode and its test cards (see "Testing your Integration" in the Korapay docs) on a preview deployment. Note that Vercel's login protection on preview deployments blocks Korapay's webhook, so on a preview the email will not be sent. The thank-you page and download still work. Test the email on a production deployment, or turn off protection for a short time.
 
-Things to confirm in test mode, because Korapay's documentation does not spell them out: whether the account can take card payments in US dollars (Korapay's overview lists cards for naira only; if dollars are not available, leave `priceUsd` at 0 and overseas buyers pay the naira price), the exact address and response of the charge-check call (`GET /charges/{reference}`), whether the buyer's email comes back in the charge `metadata`, and whether amounts are in whole naira.
+Things to confirm in test mode, because Korapay's documentation does not spell them out: whether the account can take card payments in each foreign currency (Korapay's overview lists cards for naira only; remove any currency that is rejected from `prices`), the exact address and response of the charge-check call (`GET /charges/{reference}`), whether the buyer's email comes back in the charge `metadata`, and whether amounts are in whole naira.
 
 ## Preview mode
 

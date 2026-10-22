@@ -134,12 +134,15 @@
     });
   });
 
-  /* E-book checkout: choose naira for visitors in Nigeria, dollars for everyone else (they can change it) */
-  document.querySelectorAll("[data-currency]").forEach((group) => {
-    const zone = (Intl.DateTimeFormat().resolvedOptions().timeZone || "");
-    const pick = zone === "Africa/Lagos" ? "NGN" : "USD";
-    const radio = group.querySelector(`input[value="${pick}"]`);
-    if (radio) radio.checked = true;
+  /* E-book checkout: pick a sensible currency from the visitor's time zone (they can change it) */
+  document.querySelectorAll("[data-currency] select").forEach((select) => {
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    let pick = "USD";
+    if (zone === "Africa/Lagos") pick = "NGN";
+    else if (/^Europe\/(London|Belfast|Jersey|Guernsey|Isle_of_Man)$/.test(zone)) pick = "GBP";
+    else if (zone.startsWith("Europe/")) pick = "EUR";
+    else if (/^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Montreal|Moncton|Glace_Bay|Iqaluit|Whitehorse|Yellowknife)$/.test(zone)) pick = "CAD";
+    if ([...select.options].some((o) => o.value === pick)) select.value = pick;
   });
 
   /* E-book thank-you page: confirm the payment, then show the download ---- */
