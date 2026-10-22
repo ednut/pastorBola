@@ -174,3 +174,14 @@ test("download: streams the private file for a valid link and refuses everything
   assert.equal((await prepareDownload(token, { env, offer: null, getBlob })).status, 503);
   assert.equal((await prepareDownload(token, { env, offer, getBlob: async () => ({ statusCode: 404 }) })).status, 404);
 });
+
+test("the answers tell a missing key apart from an e-book that is simply not on sale", async () => {
+  const k = fakeKora();
+  const ref = newReference();
+  const body = { name: "A", email: "a@b.co" };
+  assert.equal((await startCheckout(body, { env: {}, fetchImpl: k.fetchImpl, offer, origin })).body.error, "not_configured");
+  assert.equal((await startCheckout(body, { env, fetchImpl: k.fetchImpl, offer: null, origin })).body.error, "not_for_sale");
+  assert.equal((await paymentStatus(ref, { env: {}, offer, ...k })).body.error, "not_configured");
+  assert.equal((await paymentStatus(ref, { env, offer: null, ...k })).body.error, "not_for_sale");
+  assert.equal(k.calls.length, 0, "no call to Korapay either way");
+});
