@@ -6,6 +6,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
 
+  eleventyConfig.addFilter("naira", (n) => "₦" + Number(n).toLocaleString("en-NG"));
   eleventyConfig.addFilter("year", () => new Date().getFullYear());
   eleventyConfig.addFilter("where", (arr, key, value) => (arr || []).filter((i) => i[key] === value));
   eleventyConfig.addFilter("limit", (arr, n) => (arr || []).slice(0, n));

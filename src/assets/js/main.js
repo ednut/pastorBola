@@ -86,6 +86,8 @@
   dialog?.addEventListener("close", () => { if (frameWrap) frameWrap.innerHTML = ""; });
 
   /* Forms: sent to /api/forms (see lib/forms.js) ------------------------ */
+  let navigating = false;
+  const leaving = () => navigating;
   document.querySelectorAll("form[data-form]").forEach((form) => {
     const status = form.querySelector(".form-status");
     const say = (message, isError = false) => {
@@ -107,7 +109,12 @@
           body: JSON.stringify(Object.fromEntries(new FormData(form))),
         });
         const data = await res.json().catch(() => ({}));
-        if (res.ok && data.ok) {
+        if (res.ok && data.ok && data.checkout_url) {
+          say("Taking you to the secure payment page…");
+          navigating = true;
+          window.location.href = data.checkout_url;
+          return;
+        } else if (res.ok && data.ok) {
           form.reset();
           say(form.dataset.success || "Thank you — your message has been received.");
         } else if (res.status === 422 && data.fields) {
@@ -122,10 +129,59 @@
       } catch {
         say("Sorry, we couldn't send that. Please check your connection and try again.", true);
       } finally {
-        if (button) { button.disabled = false; button.innerHTML = label; }
+        if (button && !leaving()) { button.disabled = false; button.innerHTML = label; }
       }
     });
   });
+
+  /* E-book thank-you page: confirm the payment, then show the download ---- */
+  const box = document.getElementById("ebook-status");
+  if (box) {
+    const title = document.getElementById("ebook-status-title");
+    const text = document.getElementById("ebook-status-text");
+    const actions = document.getElementById("ebook-status-actions");
+    const reference = new URLSearchParams(location.search).get("reference");
+    const show = (heading, message, link) => {
+      title.textContent = heading;
+      text.textContent = message;
+      actions.replaceChildren();
+      actions.hidden = !link;
+      if (link) {
+        const a = document.createElement("a");
+        a.className = "btn";
+        a.href = link.href;
+        if (link.download) a.setAttribute("download", "");
+        a.textContent = link.label;
+        actions.append(a);
+      }
+    };
+    const retry = (attempt) => {
+      if (attempt >= 12) {
+        show("We are still confirming your payment", "Please contact Pastor Bola's team and mention the email address you used to pay. Your payment is safe.", { href: "/contact/", label: "Contact the team" });
+      } else {
+        setTimeout(() => check(attempt + 1), 3000);
+      }
+    };
+    const check = async (attempt = 0) => {
+      if (!reference) { show("We could not find your payment", "This page needs the link Korapay sends you after paying.", { href: "/books/", label: "Back to the book" }); return; }
+      try {
+        const res = await fetch(`/api/payment-status?reference=${encodeURIComponent(reference)}`, { headers: { Accept: "application/json" } });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.state === "paid") {
+          show("Payment received", "Thank you. Your e-book is ready. Please save the file to your device once it has downloaded. If an email with the link also arrives, you can use either.", { href: data.download_url, label: "Download the e-book", download: true });
+        } else if (res.ok && data.state === "failed") {
+          show("Your payment was not completed", "No money has been taken. You can try again whenever you are ready.", { href: "/books/#order", label: "Try again" });
+        } else if (res.ok && data.state === "wrong_amount") {
+          show("We could not confirm the full amount", "Please contact Pastor Bola's team so we can sort this out.", { href: "/contact/", label: "Contact the team" });
+        } else if (res.status === 503) {
+          show("This is not switched on yet", "Please contact Pastor Bola's team.", { href: "/contact/", label: "Contact the team" });
+        } else {
+          retry(attempt);
+        }
+      } catch { retry(attempt); }
+    };
+    check();
+  }
 
   /* Copy-to-clipboard (press kit bios) ---------------------------------- */
   document.querySelectorAll("[data-copy]").forEach((btn) => {

@@ -2,15 +2,18 @@
   "name": "pastor-bola-akinlabi-website",
   "version": "0.2.0",
   "private": true,
-  "description": "Ministry website for Pastor Bola Akinlabi \u2014 static preview build, structured for a future WordPress theme.",
+  "description": "Ministry website for Pastor Bola Akinlabi — static preview build, structured for a future WordPress theme.",
   "type": "module",
   "scripts": {
     "dev": "eleventy --serve --port=8080",
     "build": "eleventy",
     "clean": "rm -rf _site",
-    "test": "node --test tests/forms.test.mjs"
+    "test": "node --test tests/forms.test.mjs tests/payments.test.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.8.2"
   }
 }

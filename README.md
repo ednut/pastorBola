@@ -84,6 +84,38 @@ npm test         # checks every form against pretend email and list services
 
 The function runs on Vercel only. `npm run dev` serves the pages, but submitting a form locally needs `vercel dev` or the preview deployment.
 
+## E-book payments (Korapay)
+
+The e-book is sold through [Korapay](https://developers.korapay.com)'s hosted checkout. Card details never touch this site. There is no database.
+
+1. The buyer fills in a name and email on the book page. `/api/checkout` asks Korapay for a checkout link and sends them there.
+2. The buyer pays on Korapay's page and returns to `/books/thank-you/`.
+3. That page asks `/api/payment-status`, which checks the payment with Korapay and returns a signed download link that expires after 48 hours.
+4. Korapay also calls `/api/payment-webhook`. The call is checked with the secret key, the payment is confirmed again with Korapay, and the buyer is emailed the same kind of link through ZeptoMail.
+5. `/api/ebook-download` checks the link and streams the file from a private Vercel Blob store. The file has no public address.
+
+The code is in `lib/payments.js` and the four functions in `api/`. The price is read from `src/_data/books.json`, so the page and the charge cannot disagree.
+
+### Turning it on
+
+Until both of these are set, the e-book is off: the book page keeps its waiting list and the payment functions answer "not configured".
+
+1. In `src/_data/books.json`, under `ebook`, set `priceNgn` (a whole number of naira) and `file` (the path of the file in the Blob store, for example `ebooks/women-who-build.pdf`). `filename` is the name the buyer's download gets.
+2. In Vercel, create a **private** Blob store (Project, Storage, Create, Blob, Private) and connect it to the project. Upload the e-book to that path. The store can be created and uploaded to with the `vercel blob` command or the dashboard.
+3. Add the settings below in Vercel (Project, Settings, Environment Variables). Use the test key first, then swap in the live key when testing is done.
+
+| Setting | What it is |
+| --- | --- |
+| `KORAPAY_SECRET_KEY` | Korapay secret key (test while testing, live at launch) |
+| `SITE_URL` | Optional. The site's address, for example `https://www.bolaakinlabi.org`. Used in the return and webhook addresses and in emails. Defaults to the address the visitor used |
+| `EBOOK_LINK_SECRET` | Optional. A long random value used to sign download links. Defaults to a value derived from the Korapay key |
+
+### Testing
+
+`npm test` checks the whole flow against a pretend Korapay. To try it for real, use Korapay's test mode and its test cards (see "Testing your Integration" in the Korapay docs) on a preview deployment. Note that Vercel's login protection on preview deployments blocks Korapay's webhook, so on a preview the email will not be sent. The thank-you page and download still work. Test the email on a production deployment, or turn off protection for a short time.
+
+Things to confirm in test mode, because Korapay's documentation does not spell them out: the exact address and response of the charge-check call (`GET /charges/{reference}`), whether the buyer's email comes back in the charge `metadata`, and whether amounts are in whole naira.
+
 ## Preview mode
 
 While `isPreview` is `true` in `src/_data/site.json`, every page has a `noindex` tag, the footer shows "Preview build", and `src/robots.txt` disallows crawling. To launch, set `isPreview` to `false` and remove the `Disallow` line from `src/robots.txt`.

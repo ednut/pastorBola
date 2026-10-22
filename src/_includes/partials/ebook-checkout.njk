@@ -1,0 +1,13 @@
+{#- E-book checkout form. Posts to /api/checkout, which sends the buyer on to Korapay's payment page. -#}
+{%- from "partials/macros.njk" import arrow -%}
+<form class="ebook-checkout" name="ebook" method="POST" action="/api/checkout" data-form>
+  <input type="hidden" name="form-name" value="ebook">
+  <p class="hp"><label>Company <input name="company" tabindex="-1" autocomplete="off"></label></p>
+  <div class="form">
+    <div class="field"><label for="eb-name">Full name</label><input class="input" id="eb-name" name="name" autocomplete="name" required></div>
+    <div class="field"><label for="eb-email">Email address</label><input class="input" id="eb-email" type="email" name="email" autocomplete="email" required><span class="hint">Your download link is sent here.</span></div>
+    <div class="full"><button class="btn" type="submit">Buy the e-book · {{ book.ebook.priceNgn | naira }} {{ arrow() }}</button></div>
+  </div>
+  <p class="form-note mt-2">You will pay securely on Korapay’s page. We never see or store your card details.</p>
+  <p class="form-status mt-2" role="status" aria-live="polite"></p>
+</form>

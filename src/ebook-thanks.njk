@@ -1,0 +1,22 @@
+---
+layout: layouts/base.njk
+title: Thank you
+pageClass: books
+permalink: /books/thank-you/
+noindex: true
+description: Your e-book download.
+---
+{%- from "partials/macros.njk" import arrow, pageHero -%}
+
+{{ pageHero("", "Thank <em>you.</em>", "") }}
+
+<section class="section" style="padding-top:0">
+  <div class="wrap prose">
+    <div id="ebook-status" class="panel" role="status" aria-live="polite" data-state="loading">
+      <h2 id="ebook-status-title" style="font-size:var(--fs-lg);margin:0">Confirming your payment…</h2>
+      <p id="ebook-status-text" class="muted mt-2">This usually takes a few seconds. Please keep this page open.</p>
+      <div id="ebook-status-actions" class="btn-row mt-3" hidden></div>
+    </div>
+    <p class="form-note mt-3">If anything goes wrong, please <a class="link" href="/contact/">contact Pastor Bola’s team</a> and mention the email address you used to pay.</p>
+  </div>
+</section>
