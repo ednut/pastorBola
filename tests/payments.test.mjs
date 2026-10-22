@@ -206,3 +206,12 @@ test("the answers tell a missing key apart from an e-book that is simply not on 
   assert.equal((await paymentStatus(ref, { env, offer: null, ...k })).body.error, "not_for_sale");
   assert.equal(k.calls.length, 0, "no call to Korapay either way");
 });
+
+test("download: a missing file is logged with the path it looked for", async () => {
+  const logged = []; const original = console.error; console.error = (m) => logged.push(String(m));
+  try {
+    const r = await prepareDownload(signDownloadToken(newReference(), env), { env, offer, getBlob: async () => null });
+    assert.equal(r.status, 404);
+  } finally { console.error = original; }
+  assert.match(logged[0], /ebooks\/women-who-build\.pdf/);
+});
