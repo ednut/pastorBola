@@ -170,3 +170,66 @@ test("endpoint: accepts form data sent as a JSON string and answers 422 for a ba
   const res = fakeRes(); await handler(req({ body: JSON.stringify({ "form-name": "newsletter", email: "bad" }) }), res);
   assert.equal(res.code, 422); assert.ok(res.payload.fields.email);
 });
+
+// ---- ZeptoMail sends the email; Brevo only keeps the waiting list / newsletter contacts ----
+const ZEPTO_URL = "https://api.zeptomail.example/v1.1/email";
+const zeptoEnv = {
+  ZEPTOMAIL_API_KEY: "abc123",
+  ZEPTOMAIL_API_URL: ZEPTO_URL,
+  FORMS_FROM_EMAIL: "info@example.org",
+  FORMS_FROM_NAME: "Pastor Bola Akinlabi",
+  FORMS_NOTIFY_EMAIL: "inbox@example.org",
+};
+function fakeAll(failUrls = []) {
+  const calls = [];
+  const fetchImpl = async (url, init) => {
+    calls.push({ url, headers: init.headers, body: JSON.parse(init.body) });
+    return { ok: !failUrls.includes(url), status: failUrls.includes(url) ? 500 : 201 };
+  };
+  return { calls, fetchImpl };
+}
+
+test("zeptomail: a contact message is sent with the key, sender and reply-to in ZeptoMail's format", async () => {
+  const { calls, fetchImpl } = fakeAll();
+  const r = await handleSubmission({ "form-name": "contact", name: "Bola", email: "b@example.com", message: "Hello" }, { env: zeptoEnv, fetchImpl });
+  assert.equal(r.status, 200);
+  assert.equal(calls.length, 2);
+  assert.ok(calls.every((c) => c.url === ZEPTO_URL), "nothing goes to Brevo");
+  const notify = calls.find((c) => c.body.to[0].email_address.address === "inbox@example.org");
+  assert.equal(notify.headers.authorization, "Zoho-enczapikey abc123");
+  assert.deepEqual(notify.body.from, { address: "info@example.org", name: "Pastor Bola Akinlabi" });
+  assert.deepEqual(notify.body.reply_to, [{ address: "b@example.com", name: "Bola" }]);
+  assert.match(notify.body.subject, /Contact message: Bola/);
+  assert.match(notify.body.htmlbody, /Hello/);
+  const confirm = calls.find((c) => c.body.to[0].email_address.address === "b@example.com");
+  assert.match(confirm.body.htmlbody, /Thank you, Bola/);
+});
+
+test("zeptomail: a key pasted with its Zoho-enczapikey prefix is not doubled", async () => {
+  const { calls, fetchImpl } = fakeAll();
+  await handleSubmission({ "form-name": "contact", name: "A", email: "a@b.co", message: "Hi" }, { env: { ...zeptoEnv, ZEPTOMAIL_API_KEY: "Zoho-enczapikey abc123" }, fetchImpl });
+  assert.equal(calls[0].headers.authorization, "Zoho-enczapikey abc123");
+});
+
+test("zeptomail + brevo: email goes through ZeptoMail and the waiting list contact is saved in Brevo", async () => {
+  const { calls, fetchImpl } = fakeAll();
+  const e = { ...zeptoEnv, BREVO_API_KEY: "bk", BREVO_WAITLIST_LIST_ID: "7" };
+  const r = await handleSubmission(waitlist, { env: e, fetchImpl });
+  assert.equal(r.status, 200);
+  const brevoCalls = calls.filter((c) => c.url.includes("api.brevo.com"));
+  assert.deepEqual(brevoCalls.map((c) => c.url), ["https://api.brevo.com/v3/contacts"], "Brevo only saves the contact");
+  assert.equal(calls.filter((c) => c.url === ZEPTO_URL).length, 2);
+});
+
+test("zeptomail: reports a failure when the email service rejects the message and nothing else saved it", async () => {
+  const { fetchImpl } = fakeAll([ZEPTO_URL]);
+  const r = await handleSubmission({ "form-name": "contact", name: "A", email: "a@b.co", message: "Hi" }, { env: zeptoEnv, fetchImpl });
+  assert.equal(r.status, 502);
+});
+
+test("zeptomail: a key without its web address is treated as not set up", async () => {
+  const { calls, fetchImpl } = fakeAll();
+  const r = await handleSubmission({ "form-name": "contact", name: "A", email: "a@b.co", message: "Hi" }, { env: { ...zeptoEnv, ZEPTOMAIL_API_URL: "" }, fetchImpl });
+  assert.equal(r.status, 503);
+  assert.equal(calls.length, 0);
+});
