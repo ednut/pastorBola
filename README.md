@@ -54,7 +54,10 @@ The book page and the homepage teaser read `src/_data/books.json`.
 
 ## Forms
 
-Four forms post to one serverless function, `api/forms.js` (logic in `lib/forms.js`): the newsletter, the book waiting list, the speaking invitation and the contact form. The function sends email and saves contacts through [Brevo](https://www.brevo.com).
+Four forms post to one serverless function, `api/forms.js` (logic in `lib/forms.js`): the newsletter, the book waiting list, the speaking invitation and the contact form.
+
+- **Email** is sent through [ZeptoMail](https://www.zoho.com/zeptomail/). If ZeptoMail is not set up, the function falls back to Brevo for email.
+- **Contact lists** (the waiting list and the newsletter) are saved in [Brevo](https://www.brevo.com), whose free plan is enough. Brevo only holds the contacts when ZeptoMail sends the email.
 
 | Form | Notifies the office | Confirmation to the person | Saved to a Brevo list |
 | --- | --- | --- | --- |
@@ -65,19 +68,18 @@ Four forms post to one serverless function, `api/forms.js` (logic in `lib/forms.
 
 Nothing is sent until these settings are added in Vercel (Project, Settings, Environment Variables). The names are listed in `.env.example`:
 
-- `BREVO_API_KEY`
-- `FORMS_FROM_EMAIL`: a sender verified in Brevo, on the website domain
-- `FORMS_FROM_NAME` (optional)
-- `FORMS_NOTIFY_EMAIL`: the office inbox that receives submissions. Separate several with commas.
+- `ZEPTOMAIL_API_URL` and `ZEPTOMAIL_API_KEY`: from the ZeptoMail agent's Send Mail API tab. The key works with or without its `Zoho-enczapikey` prefix.
+- `FORMS_FROM_EMAIL` and `FORMS_FROM_NAME`: the sender. The domain must be verified in ZeptoMail.
+- `FORMS_NOTIFY_EMAIL`: the inbox that receives submissions. Separate several with commas.
 - `FORMS_REPLY_TO` (optional)
-- `BREVO_WAITLIST_LIST_ID` and `BREVO_NEWSLETTER_LIST_ID`
+- `BREVO_API_KEY`, `BREVO_WAITLIST_LIST_ID`, `BREVO_NEWSLETTER_LIST_ID`: for the saved contact lists.
 
-Setup in Brevo: create the account, create two contact lists (waiting list and newsletter), add the website domain under Senders & Domains and add the DNS records Brevo shows, then create an API key. Until the settings exist, the forms show a "not switched on yet" message instead of pretending to send.
+Setup in ZeptoMail: create an agent, add the website domain, then add the DKIM and CNAME records ZeptoMail shows to the domain's DNS. Do not add a second SPF record. Until the settings exist, the forms show a "not switched on yet" message instead of pretending to send.
 
 Spam protection: a hidden field that only bots fill in, a check that the form was sent from the site itself, and a small per-visitor limit.
 
 ```bash
-npm test         # checks every form against a pretend Brevo
+npm test         # checks every form against pretend email and list services
 ```
 
 The function runs on Vercel only. `npm run dev` serves the pages, but submitting a form locally needs `vercel dev` or the preview deployment.
