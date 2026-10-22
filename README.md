@@ -61,7 +61,7 @@ Four forms post to one serverless function, `api/forms.js` (logic in `lib/forms.
 
 | Form | Notifies the office | Confirmation to the person | Saved to a Brevo list |
 | --- | --- | --- | --- |
-| Newsletter | Yes | Yes | `BREVO_NEWSLETTER_LIST_ID` |
+| Newsletter (the section is not shown on pages at the moment; the form is `partials/newsletter.njk`) | Yes | Yes | `BREVO_NEWSLETTER_LIST_ID` |
 | Book waiting list (name, email, phone) | Yes | Yes | `BREVO_WAITLIST_LIST_ID` |
 | Speaking invitation | Yes | Yes | No |
 | Contact | Yes | Yes | No |
