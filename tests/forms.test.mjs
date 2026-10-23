@@ -246,3 +246,12 @@ test("errors from the email service are logged with a short reason and no email 
   assert.match(line, /400/); assert.match(line, /TM_3301/); assert.match(line, /Sender address not verified/);
   assert.doesNotMatch(line, /ada@example\.com/);
 });
+
+test("rate limit: each kind of request has its own count and its own limit", () => {
+  const t = Date.now();
+  for (let i = 0; i < 6; i++) rateLimited("forms:7.7.7.7", t + i);
+  assert.equal(rateLimited("forms:7.7.7.7", t + 7), true, "forms limit reached");
+  assert.equal(rateLimited("checkout:7.7.7.7", t + 8, 12), false, "checkout counted separately");
+  const polls = Array.from({ length: 30 }, (_, i) => rateLimited("status:8.8.8.8", t + i, 120));
+  assert.ok(polls.every((limited) => !limited), "a page checking a few dozen times is never blocked");
+});

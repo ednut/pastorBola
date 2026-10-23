@@ -154,48 +154,49 @@
     const text = document.getElementById("ebook-status-text");
     const actions = document.getElementById("ebook-status-actions");
     const reference = new URLSearchParams(location.search).get("reference");
-    const show = (heading, message, link) => {
+    const show = (heading, message, buttons = []) => {
       title.textContent = heading;
       text.textContent = message;
       actions.replaceChildren();
-      actions.hidden = !link;
-      if (link) {
-        const a = document.createElement("a");
-        a.className = "btn";
-        a.href = link.href;
-        if (link.download) a.setAttribute("download", "");
-        a.textContent = link.label;
-        actions.append(a);
-      }
+      actions.hidden = !buttons.length;
+      buttons.forEach((b) => {
+        const el = document.createElement(b.onClick ? "button" : "a");
+        el.className = "btn" + (b.ghost ? " btn--ghost" : "");
+        if (b.onClick) { el.type = "button"; el.addEventListener("click", b.onClick); }
+        else { el.href = b.href; if (b.download) el.setAttribute("download", ""); }
+        el.textContent = b.label;
+        actions.append(el);
+      });
     };
-    const retry = (attempt) => {
-      if (attempt >= 12) {
-        show("We are still confirming your payment", "Please contact Pastor Bola's team and mention the email address you used to pay. Your payment is safe.", { href: "/contact/", label: "Contact the team" });
-      } else {
-        setTimeout(() => check(attempt + 1), 3000);
-      }
-    };
-    const check = async (attempt = 0) => {
-      if (!reference) { show("We could not find your payment", "This page needs the link Korapay sends you after paying.", { href: "/books/", label: "Back to the book" }); return; }
+    const again = { label: "Try again", href: "/books/#order", ghost: true };
+    const contact = { label: "Contact the team", href: "/contact/", ghost: true };
+    const notYet = () => show(
+      "We haven't received your payment yet",
+      "If you have just paid, it can take a minute, so please check again. If you did not complete the payment, nothing has been charged and you can try again.",
+      [{ label: "Check again", onClick: () => { show("Confirming your payment…", "This usually takes a few seconds.", []); check(0); } }, again, contact]
+    );
+    const check = async (attempt) => {
+      if (!reference) { show("We could not find your payment", "This page needs the link Korapay sends you after paying.", [{ label: "Back to the book", href: "/books/" }]); return; }
+      const later = () => (attempt < 4 ? setTimeout(() => check(attempt + 1), 2000 + attempt * 1500) : notYet());
       try {
         const res = await fetch(`/api/payment-status?reference=${encodeURIComponent(reference)}`, { headers: { Accept: "application/json" } });
         const data = await res.json().catch(() => ({}));
         if (res.ok && data.state === "paid") {
-          show("Payment received", "Thank you. Your e-book is ready. Please save the file to your device once it has downloaded. If an email with the link also arrives, you can use either.", { href: data.download_url, label: "Download the e-book", download: true });
+          show("Payment received", "Thank you. Your e-book is ready. Please save the file to your device once it has downloaded. If an email with the link also arrives, you can use either.", [{ label: "Download the e-book", href: data.download_url, download: true }]);
         } else if (res.ok && data.state === "failed") {
-          show("Your payment was not completed", "No money has been taken. You can try again whenever you are ready.", { href: "/books/#order", label: "Try again" });
+          show("Your payment was not completed", "Nothing has been charged. You can try again whenever you are ready.", [{ label: "Try again", href: "/books/#order" }]);
         } else if (res.ok && data.state === "wrong_amount") {
-          show("We could not confirm the full amount", "Please contact Pastor Bola's team so we can sort this out.", { href: "/contact/", label: "Contact the team" });
-        } else if (res.status === 502 && data.error === "checkout_failed") {
-          say("We couldn't start the payment in that currency. Please choose another currency and try again.", true);
+          show("We could not confirm the full amount", "Please contact Pastor Bola's team so we can sort this out.", [{ label: "Contact the team", href: "/contact/" }]);
         } else if (res.status === 503) {
-          show("This is not switched on yet", "Please contact Pastor Bola's team.", { href: "/contact/", label: "Contact the team" });
+          show("This is not switched on yet", "Please contact Pastor Bola's team.", [{ label: "Contact the team", href: "/contact/" }]);
+        } else if (res.status === 429) {
+          show("Please wait a moment", "There have been a lot of checks from this device. Wait a minute, then check again.", [{ label: "Check again", onClick: () => check(0) }, contact]);
         } else {
-          retry(attempt);
+          later();
         }
-      } catch { retry(attempt); }
+      } catch { later(); }
     };
-    check();
+    check(0);
   }
 
   /* Copy-to-clipboard (press kit bios) ---------------------------------- */
