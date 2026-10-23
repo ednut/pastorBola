@@ -98,7 +98,9 @@ The code is in `lib/payments.js` and the four functions in `api/`. The price is 
 
 ### Turning it on
 
-Until both of these are set, the e-book is off: the book page keeps its waiting list and the payment functions answer "not configured".
+**The public buy button appears by itself when the Korapay secret key is a live key** (it starts with `sk_live`), or when `EBOOK_PUBLIC` is set to `true`. With a test key, visitors keep seeing the waiting list, because anyone could use Korapay's published test card to take the book for free. This is decided when the site is built, so **after changing the key in Vercel, redeploy the site** (Deployments, the latest one, Redeploy).
+
+The public pages show the buy button only when payments are live (see below). Until then the book page keeps its waiting list.
 
 1. In `src/_data/books.json`, under `ebook`, set `public` to `true` only when the e-book should show on the public pages (the payment functions work as soon as a file and price exist, so a hidden test page at `/books/buy-test/` can be used first), and set `prices` (a map of currency code to whole-number price, for example `"NGN": 8000, "GBP": 5, "USD": 8, "EUR": 6, "CAD": 11`) and `file` (the path of the file in the Blob store, for example `ebooks/women-who-build.pdf`). `filename` is the name the buyer's download gets.
 2. In Vercel, create a **private** Blob store (Project, Storage, Create, Blob, Private) and connect it to the project. Upload the e-book to that path. The store can be created and uploaded to with the `vercel blob` command or the dashboard.
@@ -118,7 +120,7 @@ Things to confirm in test mode, because Korapay's documentation does not spell t
 
 ## Preview mode
 
-While `isPreview` is `true` in `src/_data/site.json`, every page has a `noindex` tag, the footer shows "Preview build", and `src/robots.txt` disallows crawling. To launch, set `isPreview` to `false` and remove the `Disallow` line from `src/robots.txt`.
+The site is live for search engines: `isPreview` is `false` in `src/_data/site.json`, `site.url` is the real domain, and `robots.txt` and `sitemap.xml` are generated from templates. Set `isPreview` back to `true` to hide every page again. Individual pages can be hidden with `noindex: true` in their front matter (the thank-you page, the hidden checkout test page and the 404 page are).
 
 ## Deployment
 

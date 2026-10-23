@@ -4,12 +4,12 @@ title: Women Who Build
 pageClass: books
 ogImage: women-who-build-cover
 permalink: /books/
-description: Women Who Build, the first book from Pastor Bola Akinlabi. Lessons from the women of Scripture on identity, strength to build and purpose. About the book and the author.
+description: Women Who Build, the first book from Pastor Bola Akinlabi. Lessons from the women of Scripture on identity, strength and purpose. About the book and author.
 ---
 {#- → WordPress: single-book.php. Order links come from the `downloadUrl` and `amazonUrl` fields in _data/books.json. -#}
 {%- from "partials/macros.njk" import arrow, bookCover, pageHero -%}
 {%- set book = books[0] -%}
-{%- set ebookReady = book.ebook and book.ebook.public and book.ebook.file and book.ebook.prices -%}
+{%- set ebookReady = ebookLive and book.ebook and book.ebook.public and book.ebook.file and book.ebook.prices -%}
 {%- set available = book.downloadUrl or book.amazonUrl or ebookReady -%}
 
 {{ pageHero("", "Women Who <em>Build.</em>", "Your beginning may be small. Pick up your tools anyway.") }}
@@ -99,3 +99,7 @@ description: Women Who Build, the first book from Pastor Bola Akinlabi. Lessons 
     </div>
   </div>
 </section>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Book","name":"{{ book.title }}","author":{"@type":"Person","name":"Bola Akinlabi","@id":"{{ site.url }}/#person"},"image":"{{ site.url }}/assets/images/{{ book.cover }}.jpg","description":"{{ book.summary }}","url":"{{ site.url }}/books/"{% if ebookReady %},"bookFormat":"https://schema.org/EBook"{% endif %}}
+</script>
