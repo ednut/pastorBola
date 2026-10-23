@@ -4,7 +4,6 @@
 //   _data/*.json                 -> custom post types / ACF options (see docs/WORDPRESS-PLAN.md)
 export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
-  eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
 
   const SYMBOLS = { NGN: "₦", GBP: "£", USD: "$", EUR: "€", CAD: "CA$" };
   const NAMES = { NGN: "Nigerian naira", GBP: "British pounds", USD: "US dollars", EUR: "Euros", CAD: "Canadian dollars" };

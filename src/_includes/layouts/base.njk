@@ -5,10 +5,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if title %}{{ title }} | {% endif %}{{ site.name }}</title>
+  <title>{% if pageTitle %}{{ pageTitle }}{% elif title %}{{ title }} | {{ site.name }}{% else %}{{ site.name }}{% endif %}</title>
   <meta name="description" content="{{ description or site.description }}">
   {%- if site.isPreview or noindex %}
   <meta name="robots" content="noindex, nofollow">
+  {%- else %}
+  <meta name="robots" content="index, follow, max-image-preview:large">
   {%- endif %}
   <meta name="color-scheme" content="only light">
   <meta name="theme-color" content="#8a1538">
@@ -16,17 +18,24 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="{{ site.locale }}">
   <meta property="og:site_name" content="{{ site.name }}">
-  <meta property="og:title" content="{{ title or site.name }} — {{ site.tagline }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:title" content="{{ pageTitle or ((title + ' | ' + site.name) if title else site.name) }}">
   <meta property="og:description" content="{{ description or site.description }}">
-  <meta property="og:image" content="{{ site.url }}/assets/images/{{ ogImage or 'bola-portrait-red' }}.jpg">
+  <meta property="og:image" content="{{ site.url }}/assets/images/{{ ogImage or 'bola-portrait-corporate' }}.jpg">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ pageTitle or ((title + ' | ' + site.name) if title else site.name) }}">
+  <meta name="twitter:description" content="{{ description or site.description }}">
+  <meta name="twitter:image" content="{{ site.url }}/assets/images/{{ ogImage or 'bola-portrait-corporate' }}.jpg">
   <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/bodoni-moda-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/dm-sans-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css">
   <script src="/assets/js/main.js" defer></script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Person","name":"Bola Akinlabi","alternateName":"Bolarinwa Akinlabi","honorificPrefix":"Pastor","jobTitle":"Global Co-Lead Pastor","worksFor":{"@type":"Organization","name":"The Elevation Church","url":"https://elevationng.org/"},"spouse":{"@type":"Person","name":"Godman Akinlabi"},"alumniOf":[{"@type":"CollegeOrUniversity","name":"Ahmadu Bello University, Zaria"},{"@type":"CollegeOrUniversity","name":"University of Lagos"},{"@type":"CollegeOrUniversity","name":"University of Oxford"}],"sameAs":["{{ site.social.instagram }}"]}
+  {"@context":"https://schema.org","@type":"Person","name":"Bola Akinlabi","alternateName":"Bolarinwa Akinlabi","honorificPrefix":"Pastor","jobTitle":"Global Co-Lead Pastor","worksFor":{"@type":"Organization","name":"The Elevation Church","url":"https://elevationng.org/"},"spouse":{"@type":"Person","name":"Godman Akinlabi"},"alumniOf":[{"@type":"CollegeOrUniversity","name":"Ahmadu Bello University, Zaria"},{"@type":"CollegeOrUniversity","name":"University of Lagos"},{"@type":"CollegeOrUniversity","name":"University of Oxford"}],"sameAs":["{{ site.social.instagram }}"],"url":"https://www.bolaakinlabi.org/","image":"https://www.bolaakinlabi.org/assets/images/bola-portrait-corporate.jpg","@id":"https://www.bolaakinlabi.org/#person"}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"Pastor Bola Akinlabi","url":"https://www.bolaakinlabi.org/","inLanguage":"en-GB","publisher":{"@id":"https://www.bolaakinlabi.org/#person"}}
   </script>
 </head>
 <body class="page-{{ pageClass or 'default' }}">
