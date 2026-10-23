@@ -7,7 +7,7 @@ import { clientIp } from "../lib/http.js";
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
   if (req.method !== "GET") { res.setHeader("Allow", "GET"); return res.status(405).json({ ok: false, error: "method_not_allowed" }); }
-  if (rateLimited("status:" + clientIp(req))) return res.status(429).json({ ok: false, error: "too_many_requests" });
+  if (rateLimited("status:" + clientIp(req), Date.now(), 120)) return res.status(429).json({ ok: false, error: "too_many_requests" });
   const { status, body } = await paymentStatus(req.query?.reference, { offer: offer() });
   return res.status(status).json(body);
 }
