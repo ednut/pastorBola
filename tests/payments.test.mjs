@@ -223,3 +223,14 @@ test("every configured currency can be charged, and each is checked against its 
   const wrongCurrency = await checkPayment(newReference(), { env, offer: five, ...fakeKora({ charge: paid({ currency: "JPY", amount: 99999, amount_paid: 99999 }) }) });
   assert.equal(wrongCurrency.state, "wrong_amount");
 });
+
+test("a rejected checkout logs which field Korapay disliked, with email addresses hidden", async () => {
+  const logged = []; const original = console.error; console.error = (m) => logged.push(String(m));
+  try {
+    const k = fakeKora({ initStatus: 422, initialize: { status: false, message: "One or more fields are invalid.", data: { customer: "invalid for ada@example.com", amount: "too low" } } });
+    const r = await startCheckout({ name: "Ada", email: "ada@example.com", currency: "USD" }, { env, fetchImpl: k.fetchImpl, offer, origin });
+    assert.equal(r.status, 502);
+  } finally { console.error = original; }
+  assert.match(logged[0], /422/); assert.match(logged[0], /customer/); assert.match(logged[0], /amount/);
+  assert.doesNotMatch(logged[0], /ada@example\.com/);
+});
