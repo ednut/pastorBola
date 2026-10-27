@@ -234,3 +234,20 @@ test("a rejected checkout logs which field Korapay disliked, with email addresse
   assert.match(logged[0], /422/); assert.match(logged[0], /customer/); assert.match(logged[0], /amount/);
   assert.doesNotMatch(logged[0], /ada@example\.com/);
 });
+
+import { isValidEmail } from "../lib/payments.js";
+test("email check matches what Korapay accepts: ordinary addresses pass, malformed ones are refused", () => {
+  for (const ok of ["ada@example.com", "ada.okafor+book@gmail.com", "a_b-c@sub.domain.co.uk", "O'Brien@example.org", "x@y.co"]) assert.equal(isValidEmail(ok), true, ok);
+  for (const bad of ["", "ada", "ada@", "@example.com", "ada@example", "ada@example.c", "ada..okafor@gmail.com", ".ada@gmail.com", "ada.@gmail.com", "ada@gmail..com", "ada@-example.com", "ada@example.com.", "ada @example.com", "ada@exa mple.com"]) assert.equal(isValidEmail(bad), false, bad);
+});
+
+test("checkout: a mistyped email gets a clear message, whether we or Korapay notice it", async () => {
+  const k = fakeKora();
+  const ours = await startCheckout({ name: "Ada", email: "ada..okafor@gmail.com" }, { env, fetchImpl: k.fetchImpl, offer, origin });
+  assert.equal(ours.status, 422); assert.match(ours.body.fields.email, /check your email/i); assert.equal(k.calls.length, 0);
+  const theirs = fakeKora({ initStatus: 422, initialize: { status: false, message: "One or more fields are invalid.", data: { "customer.email": { message: "customer.email must be a valid email" } } } });
+  const r = await startCheckout({ name: "Ada", email: "ada@example.com" }, { env, fetchImpl: theirs.fetchImpl, offer, origin });
+  assert.equal(r.status, 422); assert.match(r.body.fields.email, /check your email/i);
+  const other = fakeKora({ initStatus: 422, initialize: { status: false, message: "x", data: { amount: "bad" } } });
+  assert.equal((await startCheckout({ name: "Ada", email: "ada@example.com" }, { env, fetchImpl: other.fetchImpl, offer, origin })).status, 502);
+});
